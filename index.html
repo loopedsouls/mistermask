@@ -46,6 +46,10 @@
                         <span class="btn-icon">▶▶</span>
                         <span class="btn-text">2 PLAYERS</span>
                     </button>
+                    <button class="menu-btn" data-option="codex">
+                        <span class="btn-icon">📜</span>
+                        <span class="btn-text">CODEX</span>
+                    </button>
                     <button class="menu-btn" data-option="options">
                         <span class="btn-icon">⚙</span>
                         <span class="btn-text">OPTIONS</span>
@@ -81,6 +85,62 @@
                 <button class="menu-btn back-btn" data-option="back">
                     <span class="btn-text">← BACK</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- CODEX/LORE MENU -->
+        <div id="codex-menu" class="hidden">
+            <div class="codex-panel">
+                <h2 class="codex-title">◈ CODEX ◈</h2>
+                <p class="codex-subtitle">Archives of Frame Zero</p>
+                
+                <div class="codex-content">
+                    <div class="codex-sidebar">
+                        <button class="codex-entry-btn" data-entry="frameZero">The Order</button>
+                        <button class="codex-entry-btn" data-entry="masks">The Masks</button>
+                        <button class="codex-entry-btn locked" data-entry="vessel">The Vessel</button>
+                        <button class="codex-entry-btn locked" data-entry="truth">???</button>
+                    </div>
+                    <div class="codex-text">
+                        <h3 id="codex-entry-title">Select an entry</h3>
+                        <div id="codex-entry-content" class="codex-scroll">
+                            <p>Choose an archive from the left to read its contents.</p>
+                            <p class="codex-hint">New entries unlock as you progress through the story.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="menu-btn back-btn" data-option="back-codex">
+                    <span class="btn-text">← BACK</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CHAPTER SPLASH -->
+        <div id="chapter-splash" class="hidden">
+            <div class="chapter-bg"></div>
+            <div class="chapter-content">
+                <div class="chapter-number">
+                    <span class="chapter-label">CHAPTER</span>
+                    <span class="chapter-num">1</span>
+                </div>
+                <div class="chapter-title">
+                    <span class="title-jp">緋色の仮面</span>
+                    <span class="title-en">THE SCARLET MASK</span>
+                </div>
+                <div class="chapter-quote">
+                    <p>"Created to face visible threats."</p>
+                    <p class="quote-jp">— Order of Frame Zero</p>
+                </div>
+                <div class="chapter-mask-icon">
+                    <div class="scarlet-mask"></div>
+                </div>
+            </div>
+            <div class="chapter-lines">
+                <div class="h-line top"></div>
+                <div class="h-line bottom"></div>
+                <div class="v-line left"></div>
+                <div class="v-line right"></div>
             </div>
         </div>
 
@@ -186,6 +246,19 @@
                     <button class="dialogue-btn" id="btn-next">Next</button>
                     <button class="dialogue-btn" id="btn-log">Log</button>
                     <button class="dialogue-btn" id="btn-menu">Menu</button>
+                </div>
+            </div>
+
+            <!-- Henshin/Transformation Screen -->
+            <div id="henshin-screen" class="hidden">
+                <div class="henshin-bg"></div>
+                <div class="henshin-content">
+                    <div class="henshin-text">HENSHIN</div>
+                    <div class="henshin-mask-container">
+                        <div class="henshin-mask scarlet-mask"></div>
+                    </div>
+                    <div class="henshin-name">THE SCARLET MASK</div>
+                    <div class="henshin-flash"></div>
                 </div>
             </div>
         </div>

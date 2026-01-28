@@ -2,10 +2,172 @@
 const GAME_WIDTH = 1280;
 const GAME_HEIGHT = 720;
 
+// ============ LORE & CHAPTERS ============
+const CHAPTERS = {
+    1: {
+        id: 1,
+        titleJp: '緋色の仮面',
+        titleEn: 'THE SCARLET MASK',
+        quote: '"Created to face visible threats."',
+        mask: 'scarlet',
+        color: '#cc2222',
+        dialogues: [
+            { speaker: 'SYSTEM', text: '"Connection established. Mask interface: ONLINE."', class: 'system' },
+            { speaker: '???', text: '"Finally... a compatible body. After all these cycles..."', class: 'spirit' },
+            { speaker: 'KAITO', text: '"Who... what am I? These memories... they\'re not mine."', class: 'kaito' },
+            { speaker: 'THE SCARLET MASK', text: '"You are the vessel. I am the weapon. Together, we are the Order."', class: 'mask' },
+            { speaker: 'SYSTEM', text: '"WARNING: Hostile entity detected. Classification: FRAME BREAKER."', class: 'system' },
+            { speaker: 'THE SCARLET MASK', text: '"It begins. Remember, vessel — I was forged for direct combat. Trust my instincts."', class: 'mask' },
+            { speaker: 'KAITO', text: '"The Order of Frame Zero... the masks chose me. I won\'t let them down."', class: 'kaito' }
+        ]
+    },
+    2: {
+        id: 2,
+        titleJp: '帳の仮面',
+        titleEn: 'THE VEIL MASK',
+        quote: '"Created for wars that could not be seen."',
+        mask: 'veil',
+        color: '#2244aa',
+        dialogues: [
+            { speaker: 'SYSTEM', text: '"New mask detected. Synchronization in progress..."', class: 'system' },
+            { speaker: 'THE VEIL MASK', text: '"Shhh... silence is our weapon. Move like shadow, strike like wind."', class: 'veil' },
+            { speaker: 'KAITO', text: '"This mask... it feels different. Lighter. Faster."', class: 'kaito' },
+            { speaker: 'THE VEIL MASK', text: '"The Scarlet fights what can be seen. I fight what wishes to remain hidden."', class: 'veil' },
+            { speaker: 'SYSTEM', text: '"ALERT: Temporal anomalies detected. Reality layer unstable."', class: 'system' },
+            { speaker: 'KAITO', text: '"Something is watching us from between the frames..."', class: 'kaito' }
+        ]
+    },
+    3: {
+        id: 3,
+        titleJp: '神託の仮面',
+        titleEn: 'THE ORACLE MASK',
+        quote: '"Created to read the unreadable code."',
+        mask: 'oracle',
+        color: '#ccaa22',
+        dialogues: [
+            { speaker: 'SYSTEM', text: '"CRITICAL: Oracle interface activated. System access: UNLIMITED."', class: 'system' },
+            { speaker: 'THE ORACLE MASK', text: '"Now you see as we see. The glitches. The loops. The truth."', class: 'oracle' },
+            { speaker: 'KAITO', text: '"Everything is... data? The world, the enemies, even me?"', class: 'kaito' },
+            { speaker: 'THE ORACLE MASK', text: '"You were never the first vessel. You are iteration 7,042."', class: 'oracle' },
+            { speaker: 'KAITO', text: '"What?! Then... the others..."', class: 'kaito' },
+            { speaker: 'THE ORACLE MASK', text: '"Discarded. Corrupted. We masks endure. Bodies do not."', class: 'oracle' },
+            { speaker: 'SYSTEM', text: '"Hidden protocol detected: FRAME_ZERO_ORIGIN.exe"', class: 'system' }
+        ]
+    },
+    4: {
+        id: 4,
+        titleJp: '禁忌の仮面',
+        titleEn: 'THE FORBIDDEN MASK',
+        quote: '"Created not to save — but to END."',
+        mask: 'forbidden',
+        color: '#220022',
+        dialogues: [
+            { speaker: 'SYSTEM', text: '"WARNING: FORBIDDEN MASK DETECTED. DO NOT EQUIP. DO NOT—"', class: 'system' },
+            { speaker: '???', text: '"̷͓̈́T̷̰̎h̸̭̋e̷̜͝y̴̧̛ ̵͙̈́l̸͇̎i̷͙͌e̵̳͠d̴̰̈́ ̵͔̌t̴͖̾o̴͖͝ ̴̣̈́y̷̨͝o̸̭͋ü̸͜.̷̣̈́"̷̣̈', class: 'forbidden' },
+            { speaker: 'KAITO', text: '"This voice... it\'s inside my head. It HURTS."', class: 'kaito' },
+            { speaker: 'THE FORBIDDEN MASK', text: '"The Order was never about protection. We were the RESET PROTOCOL."', class: 'forbidden' },
+            { speaker: 'KAITO', text: '"Reset? You mean..."', class: 'kaito' },
+            { speaker: 'THE FORBIDDEN MASK', text: '"When reality breaks beyond repair, we DELETE everything. Start fresh."', class: 'forbidden' },
+            { speaker: 'THE FORBIDDEN MASK', text: '"You are not a hero, vessel. You are an EXTINCTION EVENT."', class: 'forbidden' },
+            { speaker: 'SYSTEM', text: '"C̸̱͝O̵̭͌R̷̨̈́R̷̲̈́U̵̻͝P̴̣̈́T̵̰̎I̸͙̾O̵͕̾N̷͓̈́ ̷̨̛D̵̰̈́E̷̜͝T̵͖̾E̴̳͠C̵̣̈́T̴̰̎Ḙ̸̋Ḑ̷̛"', class: 'system' }
+        ]
+    }
+};
+
+const LORE_ENTRIES = {
+    frameZero: {
+        title: 'The Order of Frame Zero',
+        content: `Long ago, when reality was young, the first glitches appeared.
+        
+Tears in the fabric of existence. Loops that trapped souls for eternity.
+        
+The ARCHITECTS created the Order — not of men, but of MASKS.
+        
+Each mask was a weapon. Each mask was a prison.
+        
+The warriors who wore them gained power beyond mortal limits...
+but lost themselves in the process.
+
+"The body is temporary. The mask is eternal."
+— First Axiom of Frame Zero`
+    },
+    masks: {
+        title: 'The Four Sacred Masks',
+        content: `SCARLET — The Warrior
+Forged in conflict, burns with righteous fury.
+Grants: Strength, Resilience, Combat Instinct.
+Cost: Aggression consumes the host.
+
+VEIL — The Shadow  
+Woven from secrets, moves unseen.
+Grants: Speed, Stealth, Phase Shift.
+Cost: Identity fades with each use.
+
+ORACLE — The Seer
+Carved from forbidden knowledge.
+Grants: True Sight, System Access, Prediction.
+Cost: The truth destroys the mind.
+
+FORBIDDEN — The End
+Should never have been created.
+Grants: Absolute Power, Reality Manipulation.
+Cost: Everything.`
+    },
+    vessel: {
+        title: 'The Vessel Program',
+        content: `The masks cannot act alone.
+        
+They require a HOST — a body compatible with their frequency.
+        
+For millennia, the Order sought vessels.
+Most rejected. Most burned. Most forgot.
+
+You are Iteration 7,042.
+
+The first to synchronize with ALL FOUR MASKS.
+
+The Architects are watching.
+The System is afraid.
+And the masks...
+
+The masks are HUNGRY.`
+    },
+    truth: {
+        title: 'The Hidden Truth',
+        content: `[CLASSIFIED — FRAME ZERO EYES ONLY]
+
+The Order was never meant to protect.
+
+We are the FAILSAFE.
+
+When corruption exceeds 99.7%, 
+when the loops become infinite,
+when reality cannot sustain itself...
+
+We DELETE.
+
+Every hero. Every villain. Every memory.
+
+And we begin again.
+
+This is cycle 2,847.
+
+You have reset the universe 2,846 times.
+
+You just don't remember.
+
+[END CLASSIFIED]`
+    }
+};
+
 // ============ GAME STATE ============
 const gameState = {
-    currentScreen: 'splash', // splash, menu, options, game
+    currentScreen: 'splash', // splash, menu, options, chapter, game, lore
+    currentChapter: 1,
     menuSelection: 0,
+    unlockedChapters: [1],
+    unlockedMasks: ['scarlet'],
+    currentMask: 'scarlet',
     player: {
         hp: 85,
         maxHp: 100,
@@ -15,27 +177,29 @@ const gameState = {
         y: 0,
         isJumping: false,
         isAttacking: false,
-        facingRight: true
+        facingRight: true,
+        iteration: 7042
     },
     enemy: {
         hp: 100,
         maxHp: 100,
         x: 900,
-        y: 0
+        y: 0,
+        type: 'frameBreaker'
     },
     dialogue: {
         active: false,
         currentIndex: 0,
-        lines: [
-            { speaker: 'KAITO', text: '"The ancient Guardian has awakened. The balance of masks is broken!"', class: 'kaito' },
-            { speaker: 'SHADOW SPIRIT', text: '"Yes, little wolf. The prophecy is unfolding."', class: 'spirit' },
-            { speaker: 'KAITO', text: '"I will restore balance... no matter the cost."', class: 'kaito' }
-        ]
+        lines: []
+    },
+    lore: {
+        unlockedEntries: ['frameZero'],
+        currentEntry: null
     },
     keys: {}
 };
 
-const menuOptions = ['1player', '2player', 'options'];
+const menuOptions = ['1player', '2player', 'codex', 'options'];
 
 // ============ INICIALIZAÇÃO ============
 document.addEventListener('DOMContentLoaded', () => {
@@ -146,13 +310,74 @@ function handleMenuSelect(option) {
         case '2player':
             startGame(2);
             break;
+        case 'codex':
+            showCodex();
+            break;
         case 'options':
             showOptions();
             break;
         case 'back':
             hideOptions();
             break;
+        case 'back-codex':
+            hideCodex();
+            break;
     }
+}
+
+// ============ CODEX ============
+function showCodex() {
+    gameState.currentScreen = 'codex';
+    document.getElementById('codex-menu').classList.remove('hidden');
+    initCodexButtons();
+}
+
+function hideCodex() {
+    gameState.currentScreen = 'menu';
+    document.getElementById('codex-menu').classList.add('hidden');
+}
+
+function initCodexButtons() {
+    document.querySelectorAll('.codex-entry-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const entry = btn.dataset.entry;
+            
+            // Verificar se está desbloqueado
+            if (btn.classList.contains('locked') && !gameState.lore.unlockedEntries.includes(entry)) {
+                return;
+            }
+            
+            // Remover active de todos
+            document.querySelectorAll('.codex-entry-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Mostrar conteúdo
+            showLoreEntry(entry);
+        });
+    });
+    
+    // Botão de voltar
+    document.querySelector('[data-option="back-codex"]')?.addEventListener('click', hideCodex);
+    
+    // Atualizar estado de locked/unlocked
+    updateCodexLocks();
+}
+
+function updateCodexLocks() {
+    document.querySelectorAll('.codex-entry-btn').forEach(btn => {
+        const entry = btn.dataset.entry;
+        if (gameState.lore.unlockedEntries.includes(entry)) {
+            btn.classList.remove('locked');
+        }
+    });
+}
+
+function showLoreEntry(entryKey) {
+    const entry = LORE_ENTRIES[entryKey];
+    if (!entry) return;
+    
+    document.getElementById('codex-entry-title').textContent = entry.title;
+    document.getElementById('codex-entry-content').innerHTML = `<p>${entry.content}</p>`;
 }
 
 // ============ OPTIONS ============
@@ -172,10 +397,70 @@ function hideOptions() {
 // ============ START GAME ============
 function startGame(players) {
     console.log(`Starting game with ${players} player(s)`);
-    gameState.currentScreen = 'game';
     
     hideMainMenu();
+    showChapterSplash();
+}
+
+// ============ CHAPTER SPLASH ============
+function showChapterSplash() {
+    gameState.currentScreen = 'chapter';
+    const chapter = CHAPTERS[gameState.currentChapter];
+    const chapterSplash = document.getElementById('chapter-splash');
+    
+    // Atualizar conteúdo do capítulo
+    updateChapterContent(chapter);
+    
+    chapterSplash.classList.remove('hidden');
+    
+    // Após 4.5 segundos, iniciar o jogo
+    setTimeout(() => {
+        hideChapterSplash();
+    }, 4500);
+}
+
+function updateChapterContent(chapter) {
+    const numEl = document.querySelector('.chapter-num');
+    const titleJpEl = document.querySelector('.title-jp');
+    const titleEnEl = document.querySelector('.title-en');
+    const quoteEl = document.querySelector('.chapter-quote p:first-child');
+    const maskEl = document.querySelector('.scarlet-mask');
+    const bgEl = document.querySelector('.chapter-bg');
+    
+    if (numEl) numEl.textContent = chapter.id;
+    if (titleJpEl) titleJpEl.textContent = chapter.titleJp;
+    if (titleEnEl) titleEnEl.textContent = chapter.titleEn;
+    if (quoteEl) quoteEl.textContent = chapter.quote;
+    
+    // Atualizar cor do capítulo
+    if (numEl) numEl.style.color = chapter.color;
+    if (numEl) numEl.style.textShadow = `0 0 30px ${chapter.color}, 0 0 60px ${chapter.color}80, 0 4px 0 ${chapter.color}44`;
+    
+    // Atualizar máscara visual baseada no capítulo
+    if (maskEl) {
+        maskEl.className = `${chapter.mask}-mask`;
+    }
+}
+
+function hideChapterSplash() {
+    const chapterSplash = document.getElementById('chapter-splash');
+    chapterSplash.style.animation = 'chapter-fade-out 1s ease-out forwards';
+    
+    setTimeout(() => {
+        chapterSplash.classList.add('hidden');
+        chapterSplash.style.animation = '';
+        startGameplay();
+    }, 1000);
+}
+
+function startGameplay() {
+    gameState.currentScreen = 'game';
     document.getElementById('game-screen').classList.remove('hidden');
+    
+    // Carregar diálogos do capítulo atual
+    const chapter = CHAPTERS[gameState.currentChapter];
+    gameState.dialogue.lines = chapter.dialogues;
+    gameState.dialogue.currentIndex = 0;
     
     updateUI();
     startGameLoop();
@@ -184,6 +469,57 @@ function startGame(players) {
     setTimeout(() => {
         showDialogue();
     }, 1000);
+}
+
+// ============ HENSHIN (TRANSFORMATION) ============
+function triggerHenshin(maskType) {
+    const henshinScreen = document.getElementById('henshin-screen');
+    const maskContainer = henshinScreen.querySelector('.henshin-mask-container');
+    const maskName = henshinScreen.querySelector('.henshin-name');
+    const henshinBg = henshinScreen.querySelector('.henshin-bg');
+    
+    // Configurar máscara
+    const maskInfo = {
+        scarlet: { name: 'THE SCARLET MASK', color: '#cc2222' },
+        veil: { name: 'THE VEIL MASK', color: '#2244aa' },
+        oracle: { name: 'THE ORACLE MASK', color: '#ccaa22' },
+        forbidden: { name: 'THE FORBIDDEN MASK', color: '#660066' }
+    };
+    
+    const info = maskInfo[maskType] || maskInfo.scarlet;
+    
+    // Atualizar visual
+    maskContainer.innerHTML = `<div class="${maskType}-mask"></div>`;
+    maskName.textContent = info.name;
+    maskName.style.color = info.color;
+    
+    // Mudar cor do background
+    henshinBg.style.background = `radial-gradient(ellipse at center, ${info.color}22 0%, #000 100%)`;
+    
+    // Mostrar tela
+    henshinScreen.classList.remove('hidden');
+    gameState.currentMask = maskType;
+    
+    // Após 2.5 segundos, esconder
+    setTimeout(() => {
+        henshinScreen.classList.add('hidden');
+        updatePlayerMask();
+    }, 2500);
+}
+
+function updatePlayerMask() {
+    const playerMask = document.querySelector('.player-mask-face');
+    if (!playerMask) return;
+    
+    const colors = {
+        scarlet: { main: '#cc3333', secondary: '#881111' },
+        veil: { main: '#3355aa', secondary: '#113366' },
+        oracle: { main: '#ddaa22', secondary: '#996600' },
+        forbidden: { main: '#440044', secondary: '#110011' }
+    };
+    
+    const color = colors[gameState.currentMask] || colors.scarlet;
+    playerMask.style.background = `linear-gradient(180deg, ${color.main} 0%, ${color.secondary} 100%)`;
 }
 
 // ============ CONTROLES ============
@@ -221,6 +557,29 @@ function initControls() {
             }
             if (e.key === 'Escape') {
                 hideDialogue();
+            }
+            // Henshin com tecla H ou Q
+            if (e.key.toLowerCase() === 'h' || e.key.toLowerCase() === 'q') {
+                if (!gameState.dialogue.active) {
+                    triggerHenshin(gameState.currentMask);
+                }
+            }
+            // Trocar máscaras com 1, 2, 3, 4
+            if (e.key === '1' && gameState.unlockedMasks.includes('scarlet')) {
+                gameState.currentMask = 'scarlet';
+                triggerHenshin('scarlet');
+            }
+            if (e.key === '2' && gameState.unlockedMasks.includes('veil')) {
+                gameState.currentMask = 'veil';
+                triggerHenshin('veil');
+            }
+            if (e.key === '3' && gameState.unlockedMasks.includes('oracle')) {
+                gameState.currentMask = 'oracle';
+                triggerHenshin('oracle');
+            }
+            if (e.key === '4' && gameState.unlockedMasks.includes('forbidden')) {
+                gameState.currentMask = 'forbidden';
+                triggerHenshin('forbidden');
             }
         }
     });
@@ -362,10 +721,69 @@ function nextDialogue() {
     
     if (gameState.dialogue.currentIndex >= gameState.dialogue.lines.length) {
         hideDialogue();
+        onDialogueComplete();
         return;
     }
     
     updateDialogueText();
+}
+
+function onDialogueComplete() {
+    // Desbloquear conteúdo baseado no capítulo
+    const chapter = gameState.currentChapter;
+    
+    if (chapter === 1) {
+        // Após capítulo 1, desbloqueia informações das máscaras
+        unlockLoreEntry('masks');
+        console.log('📜 New Codex Entry: The Masks');
+    } else if (chapter === 2) {
+        // Após capítulo 2, desbloqueia a máscara Veil
+        unlockMask('veil');
+        console.log('🎭 New Mask Unlocked: The Veil Mask');
+    } else if (chapter === 3) {
+        // Após capítulo 3, desbloqueia a máscara Oracle e info do Vessel
+        unlockMask('oracle');
+        unlockLoreEntry('vessel');
+        console.log('🎭 New Mask Unlocked: The Oracle Mask');
+        console.log('📜 New Codex Entry: The Vessel');
+    } else if (chapter === 4) {
+        // Após capítulo 4, desbloqueia tudo (final)
+        unlockMask('forbidden');
+        unlockLoreEntry('truth');
+        console.log('🎭 FORBIDDEN MASK UNLOCKED');
+        console.log('📜 THE TRUTH REVEALED');
+    }
+}
+
+function unlockMask(maskType) {
+    if (!gameState.unlockedMasks.includes(maskType)) {
+        gameState.unlockedMasks.push(maskType);
+        showUnlockNotification(`🎭 ${maskType.toUpperCase()} MASK UNLOCKED`);
+    }
+}
+
+function unlockLoreEntry(entryKey) {
+    if (!gameState.lore.unlockedEntries.includes(entryKey)) {
+        gameState.lore.unlockedEntries.push(entryKey);
+        showUnlockNotification(`📜 NEW CODEX ENTRY`);
+    }
+}
+
+function unlockChapter(chapterNum) {
+    if (!gameState.unlockedChapters.includes(chapterNum)) {
+        gameState.unlockedChapters.push(chapterNum);
+    }
+}
+
+function showUnlockNotification(text) {
+    const notification = document.createElement('div');
+    notification.className = 'unlock-notification';
+    notification.textContent = text;
+    document.getElementById('game-container').appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
 
 function updateDialogueText() {
@@ -417,6 +835,11 @@ style.textContent = `
         100% { opacity: 1; transform: scale(1); }
     }
     
+    @keyframes chapter-fade-out {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    
     @keyframes float-up {
         0% { transform: translateY(0); opacity: 1; }
         100% { transform: translateY(-50px); opacity: 0; }
@@ -431,3 +854,15 @@ document.head.appendChild(style);
 
 console.log('🎭 Mister Mask - Game Loaded!');
 console.log('©2026 LoopedSouls All Rights Reserved');
+console.log('');
+console.log('=== THE ORDER OF FRAME ZERO ===');
+console.log('Controls:');
+console.log('  A/D or ←→  - Move');
+console.log('  W or ↑     - Jump');
+console.log('  Space      - Attack');
+console.log('  H or Q     - Henshin (Transform)');
+console.log('  1-4        - Switch Masks');
+console.log('  Enter      - Next dialogue');
+console.log('  Escape     - Close dialogue');
+console.log('');
+console.log('"The body is temporary. The mask is eternal."');
