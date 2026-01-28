@@ -6,205 +6,239 @@
 }
 
 body {
-    background: #1a0a2e;
+    background: #0a0a12;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     font-family: 'Courier New', monospace;
     image-rendering: pixelated;
+    overflow: hidden;
 }
 
 #game-container {
-    width: 800px;
-    height: 600px;
+    width: 960px;
+    height: 540px;
     position: relative;
     overflow: hidden;
-    border: 4px solid #2d1b4e;
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    background: #0d0d1a;
+    image-rendering: pixelated;
 }
 
-/* ============ CENÁRIO ============ */
+/* ============ CENÁRIO JAPONÊS ============ */
 #background {
     position: absolute;
     width: 100%;
     height: 100%;
+}
+
+/* Céu roxo/azul escuro */
+.sky {
+    position: absolute;
+    width: 100%;
+    height: 70%;
     background: linear-gradient(180deg, 
-        #6b4d8a 0%, 
-        #8b6a9e 20%,
-        #9d7bb0 40%,
-        #c4956e 60%,
-        #d4a574 80%,
-        #8b5a3c 100%
+        #1a1a3a 0%,
+        #2a2a5a 30%,
+        #3a4a7a 60%,
+        #4a5a8a 100%
     );
 }
 
-/* Árvores gigantes */
-.tree {
+/* Nuvens escuras */
+.clouds {
     position: absolute;
-    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background: 
+        radial-gradient(ellipse 200px 60px at 10% 30%, rgba(40, 40, 80, 0.8) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 80px at 30% 50%, rgba(50, 50, 90, 0.7) 0%, transparent 70%),
+        radial-gradient(ellipse 250px 70px at 60% 25%, rgba(45, 45, 85, 0.8) 0%, transparent 70%),
+        radial-gradient(ellipse 350px 90px at 80% 45%, rgba(55, 55, 95, 0.7) 0%, transparent 70%),
+        radial-gradient(ellipse 200px 50px at 95% 20%, rgba(40, 40, 80, 0.6) 0%, transparent 70%);
+    animation: clouds-move 60s linear infinite;
 }
 
-.tree-1 {
-    left: 5%;
-    width: 80px;
-    height: 500px;
-    background: linear-gradient(90deg, #4a3562 0%, #6b4d8a 50%, #4a3562 100%);
-    border-radius: 20px 20px 0 0;
+@keyframes clouds-move {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50px); }
 }
 
-.tree-2 {
-    left: 35%;
-    width: 120px;
-    height: 600px;
-    background: linear-gradient(90deg, #d4956e 0%, #e8a87c 50%, #c4855a 100%);
-    border-radius: 30px 30px 0 0;
-}
-
-.tree-3 {
-    right: 10%;
-    width: 60px;
-    height: 450px;
-    background: linear-gradient(90deg, #5a4072 0%, #7b5a92 50%, #5a4072 100%);
-    border-radius: 15px 15px 0 0;
-}
-
-/* Cogumelos */
-.mushroom {
+/* Estátuas Oni gigantes */
+.oni-statue {
     position: absolute;
-}
-
-.mushroom-large {
-    right: 20%;
-    bottom: 200px;
-    width: 180px;
-    height: 120px;
-}
-
-.mushroom-large::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 80px;
-    background: linear-gradient(90deg, #9d8aa0 0%, #c4b0c8 50%, #9d8aa0 100%);
-    border-radius: 5px;
-}
-
-.mushroom-large::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 180px;
-    height: 60px;
-    background: linear-gradient(180deg, #8b2942 0%, #a83a55 50%, #722236 100%);
-    border-radius: 100px 100px 20px 20px;
-    box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2);
-}
-
-.mushroom-medium {
-    left: 15%;
-    bottom: 250px;
-    width: 120px;
-    height: 80px;
-}
-
-.mushroom-medium::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 25px;
-    height: 50px;
-    background: linear-gradient(90deg, #a08a70 0%, #c4a880 50%, #a08a70 100%);
-    border-radius: 5px;
-}
-
-.mushroom-medium::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 120px;
-    height: 45px;
-    background: linear-gradient(180deg, #a08050 0%, #c4a060 50%, #8a6a40 100%);
-    border-radius: 80px 80px 15px 15px;
-    box-shadow: inset 0 -8px 15px rgba(0,0,0,0.2);
-}
-
-.mushroom-small-1, .mushroom-small-2, .mushroom-small-3 {
-    width: 60px;
-    height: 40px;
-}
-
-.mushroom-small-1 {
-    right: 5%;
     bottom: 180px;
+    width: 180px;
+    height: 320px;
+    z-index: 5;
 }
 
-.mushroom-small-2 {
-    right: 35%;
-    bottom: 200px;
+.oni-left {
+    left: 20px;
 }
 
-.mushroom-small-3 {
-    left: 40%;
-    bottom: 220px;
+.oni-right {
+    left: 160px;
 }
 
-.mushroom-small-1::before, .mushroom-small-2::before, .mushroom-small-3::before {
+.oni-statue::before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 15px;
-    height: 25px;
-    background: linear-gradient(90deg, #9d8a80 0%, #b4a090 50%, #9d8a80 100%);
-    border-radius: 3px;
-}
-
-.mushroom-small-1::after, .mushroom-small-2::after, .mushroom-small-3::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 60px;
-    height: 25px;
-    background: linear-gradient(180deg, #a08050 0%, #b8945a 50%, #8a6a40 100%);
-    border-radius: 50px 50px 10px 10px;
-}
-
-/* Chão */
-.ground {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 180px;
-    background: linear-gradient(180deg, 
-        #8b5a4a 0%,
-        #7a4a3a 30%,
-        #6a3a2a 60%,
-        #5a2a1a 100%
+    width: 140px;
+    height: 280px;
+    background: linear-gradient(180deg,
+        #4a5a5a 0%,
+        #5a6a6a 20%,
+        #4a5a5a 40%,
+        #3a4a4a 100%
+    );
+    clip-path: polygon(
+        30% 0%, 70% 0%,
+        75% 15%, 80% 25%,
+        85% 40%, 80% 60%,
+        75% 80%, 70% 100%,
+        30% 100%, 25% 80%,
+        20% 60%, 15% 40%,
+        20% 25%, 25% 15%
     );
 }
 
-.grass {
+/* Rosto do Oni */
+.oni-statue::after {
+    content: '';
     position: absolute;
-    bottom: 150px;
-    width: 100%;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 80px;
+    background: 
+        radial-gradient(ellipse 15px 10px at 35% 40%, #2a2a2a 0%, transparent 70%),
+        radial-gradient(ellipse 15px 10px at 65% 40%, #2a2a2a 0%, transparent 70%),
+        radial-gradient(ellipse 30px 15px at 50% 70%, #3a3a3a 0%, transparent 70%),
+        linear-gradient(180deg, #5a6a6a 0%, #4a5a5a 100%);
+    border-radius: 10px;
+}
+
+/* Cidade ao fundo */
+.bg-city {
+    position: absolute;
+    bottom: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 150px;
+    background: 
+        linear-gradient(90deg, transparent 0%, #2a3a5a 10%, #2a3a5a 90%, transparent 100%);
+    clip-path: polygon(
+        0% 100%, 10% 80%, 15% 85%, 20% 60%, 25% 65%,
+        30% 40%, 35% 50%, 40% 30%, 45% 45%, 50% 25%,
+        55% 45%, 60% 30%, 65% 50%, 70% 40%,
+        75% 65%, 80% 60%, 85% 85%, 90% 80%, 100% 100%
+    );
+    opacity: 0.6;
+}
+
+/* Templo japonês à direita */
+.temple-roof {
+    position: absolute;
+    right: 0;
+    top: 80px;
+    width: 250px;
+    height: 200px;
+    z-index: 10;
+}
+
+.temple-roof::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 220px;
     height: 40px;
-    background: repeating-linear-gradient(90deg,
-        transparent 0px,
-        transparent 5px,
-        #6b4a6a 5px,
-        #8b5a8a 8px,
-        transparent 8px,
-        transparent 15px
+    background: linear-gradient(180deg, #2a2a3a 0%, #1a1a2a 100%);
+    clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+}
+
+.temple-roof::after {
+    content: '';
+    position: absolute;
+    top: 35px;
+    right: 20px;
+    width: 180px;
+    height: 35px;
+    background: linear-gradient(180deg, #3a3a4a 0%, #2a2a3a 100%);
+    clip-path: polygon(5% 100%, 15% 0%, 85% 0%, 95% 100%);
+}
+
+/* Ponte de pedra */
+.bridge {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    z-index: 15;
+}
+
+.bridge-floor {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    height: 25px;
+    background: linear-gradient(180deg, 
+        #5a5a6a 0%,
+        #4a4a5a 50%,
+        #3a3a4a 100%
+    );
+    border-top: 3px solid #6a6a7a;
+}
+
+.bridge-rail-back {
+    position: absolute;
+    bottom: 65px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg,
+        #3a3a4a 0%, #4a4a5a 2%, #3a3a4a 4%,
+        #3a3a4a 6%, #4a4a5a 8%, #3a3a4a 10%
+    );
+    background-size: 60px 100%;
+}
+
+.bridge-pillar {
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+    height: 120px;
+    background: linear-gradient(90deg, 
+        #4a4a5a 0%,
+        #5a5a6a 30%,
+        #4a4a5a 70%,
+        #3a3a4a 100%
+    );
+}
+
+.pillar-1 { left: 15%; }
+.pillar-2 { left: 45%; }
+.pillar-3 { left: 75%; }
+
+/* Abismo/Água */
+.abyss {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(180deg,
+        #0a0a1a 0%,
+        #050510 100%
     );
 }
 
@@ -223,479 +257,533 @@ body {
     position: absolute;
     top: 15px;
     left: 15px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 3px solid #4a4a4a;
-    padding: 10px;
-    pointer-events: auto;
-    image-rendering: pixelated;
-}
-
-.health-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
-    margin-bottom: 5px;
 }
 
-.heart-icon {
-    font-size: 18px;
-    filter: drop-shadow(0 0 2px #ff0000);
-}
-
-.companion-heart {
-    font-size: 16px;
-    margin-left: 10px;
-    filter: drop-shadow(0 0 2px #00ff00);
-}
-
-.stat-value {
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 2px 2px 0 #000;
-    font-family: 'Courier New', monospace;
-}
-
-.stat-value.small {
-    font-size: 12px;
-    color: #aaffaa;
-}
-
-.mana-bar {
-    width: 150px;
-    height: 16px;
-    background: #1a1a2e;
-    border: 2px solid #3a3a5e;
-    margin: 8px 0;
+/* Máscara de lobo/raposa */
+.mask-icon {
+    width: 50px;
+    height: 50px;
     position: relative;
 }
 
-.mana-fill {
-    width: 80%;
+.wolf-mask {
+    width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, #4fc3f7 0%, #29b6f6 50%, #0288d1 100%);
-    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    background: linear-gradient(180deg, #c4a050 0%, #a08040 50%, #806030 100%);
+    clip-path: polygon(
+        50% 0%, 65% 5%, 80% 0%, 90% 15%,
+        95% 35%, 90% 55%, 80% 70%,
+        65% 85%, 50% 100%, 35% 85%,
+        20% 70%, 10% 55%, 5% 35%,
+        10% 15%, 20% 0%, 35% 5%
+    );
+    position: relative;
+}
+
+.wolf-mask::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    width: 25%;
+    height: 20%;
+    background: #1a1a2a;
+    clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+    box-shadow: 35px 0 0 #1a1a2a;
+}
+
+.wolf-mask::after {
+    content: '';
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    height: 15%;
+    background: #1a1a2a;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+/* Barras de HP e MP */
+.bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hp-bar, .mp-bar {
+    width: 180px;
+    height: 14px;
+    background: #1a1a2a;
+    border: 2px solid #3a3a4a;
+    position: relative;
+    overflow: hidden;
+}
+
+.hp-fill {
+    width: 85%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        #ff8844 0%,
+        #ee6622 50%,
+        #cc4400 100%
+    );
+    box-shadow: 0 0 8px rgba(255, 136, 68, 0.5);
     transition: width 0.3s ease;
 }
 
-.mana-text {
+.mp-fill {
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        #44ddff 0%,
+        #22bbee 50%,
+        #0099cc 100%
+    );
+    box-shadow: 0 0 8px rgba(68, 221, 255, 0.5);
+    transition: width 0.3s ease;
+}
+
+/* Sparkle */
+.sparkle-effect {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    text-shadow: 1px 1px 0 #000;
+    bottom: 80px;
+    right: 30px;
+    font-size: 24px;
+    color: #ffffff;
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #aaaaff;
+    animation: sparkle-twinkle 2s ease-in-out infinite;
 }
 
-.level-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
+@keyframes sparkle-twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
 }
 
-.level-text {
-    color: #90ee90;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 1px 1px 0 #000;
-}
-
-.gold-text {
-    color: #ffd700;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 1px 1px 0 #000;
-}
-
-/* Inventory Slots */
-#inventory-slots {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 4px;
-    margin-top: 8px;
-}
-
-.slot {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #2a2a4a 0%, #1a1a2e 100%);
-    border: 2px solid #4a4a6a;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.slot:hover {
-    border-color: #8a8aaa;
-    box-shadow: 0 0 8px rgba(138, 138, 170, 0.5);
-}
-
-.slot-item {
-    width: 24px;
-    height: 24px;
-    image-rendering: pixelated;
-}
-
-.sword-icon {
-    background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
-    clip-path: polygon(50% 0%, 55% 70%, 70% 75%, 70% 85%, 55% 85%, 55% 100%, 45% 100%, 45% 85%, 30% 85%, 30% 75%, 45% 70%);
-}
-
-.potion-icon {
-    background: linear-gradient(180deg, #ff6b6b 0%, #c0392b 100%);
-    border-radius: 0 0 8px 8px;
-    width: 16px;
-    height: 20px;
-    position: relative;
-}
-
-.potion-icon::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 10px;
-    height: 8px;
-    background: #8b4513;
-    border-radius: 2px;
-}
-
-.magic-icon {
-    background: radial-gradient(circle, #9b59b6 0%, #8e44ad 50%, #6c3483 100%);
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(155, 89, 182, 0.6);
-}
-
-.shield-icon {
-    background: linear-gradient(180deg, #3498db 0%, #2980b9 50%, #1a5276 100%);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 60%, 50% 100%, 0% 60%, 0% 25%);
-}
-
-.slot-count {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    text-shadow: 1px 1px 0 #000;
-}
-
-/* ============ PERSONAGEM ============ */
+/* ============ PERSONAGEM KAITO ============ */
 #player {
     position: absolute;
-    bottom: 120px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 180px;
+    bottom: 140px;
+    left: 380px;
+    width: 80px;
+    height: 100px;
     z-index: 50;
+    transition: left 0.1s ease;
 }
 
-.player-mask {
+/* Capa */
+.player-cape {
     position: absolute;
-    top: 0;
+    top: 25px;
     left: 50%;
     transform: translateX(-50%);
-    width: 50px;
-    height: 70px;
-    background: #ffffff;
-    border-radius: 50% 50% 45% 45%;
-    box-shadow: 
-        inset -5px 0 10px rgba(0,0,0,0.1),
-        2px 2px 0 rgba(0,0,0,0.2);
+    width: 70px;
+    height: 60px;
+    background: linear-gradient(180deg, #1a1a2a 0%, #0a0a15 100%);
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+    animation: cape-flow 1s ease-in-out infinite;
 }
 
-.player-mask::before {
-    content: '';
+@keyframes cape-flow {
+    0%, 100% { clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%); }
+    50% { clip-path: polygon(20% 0%, 80% 0%, 95% 100%, 5% 100%); }
+}
+
+/* Corpo */
+.player-body {
     position: absolute;
-    top: 35px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 8px;
-    height: 15px;
-    background: #1a1a2e;
-    border-radius: 50%;
-}
-
-.player-mask::after {
-    content: '';
-    position: absolute;
-    top: 38px;
-    left: 30%;
-    width: 6px;
-    height: 10px;
-    background: #1a1a2e;
-    border-radius: 50%;
-    box-shadow: 14px 0 0 #1a1a2e;
-}
-
-.player-horn-left {
-    position: absolute;
-    top: -25px;
-    left: 15px;
-    width: 12px;
+    width: 35px;
     height: 45px;
-    background: #ffffff;
-    border-radius: 50% 50% 0 0;
-    transform: rotate(-20deg);
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    background: linear-gradient(180deg, #2a2a3a 0%, #1a1a2a 100%);
+    border-radius: 5px 5px 0 0;
 }
 
-.player-horn-right {
-    position: absolute;
-    top: -25px;
-    right: 15px;
-    width: 12px;
-    height: 45px;
-    background: #ffffff;
-    border-radius: 50% 50% 0 0;
-    transform: rotate(20deg);
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-}
-
-.player-cloak {
+.player-belt {
     position: absolute;
     top: 55px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 50px;
-    background: #1a1a2e;
-    border-radius: 10px 10px 30px 30px;
+    width: 40px;
+    height: 8px;
+    background: linear-gradient(180deg, #c4a050 0%, #a08040 100%);
 }
 
-.player-dress {
+/* Máscara do personagem */
+.player-mask-face {
     position: absolute;
-    top: 80px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 70px;
-    height: 55px;
-    background: linear-gradient(180deg, #c0392b 0%, #a93226 50%, #922b21 100%);
-    clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-    border-radius: 0 0 10px 10px;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(180deg, #d4b060 0%, #b09050 50%, #907040 100%);
+    border-radius: 5px;
+    position: relative;
 }
 
+.mask-ear {
+    position: absolute;
+    top: -12px;
+    width: 10px;
+    height: 18px;
+    background: linear-gradient(180deg, #d4b060 0%, #b09050 100%);
+}
+
+.mask-ear.left {
+    left: 2px;
+    clip-path: polygon(100% 100%, 0% 100%, 50% 0%);
+}
+
+.mask-ear.right {
+    right: 2px;
+    clip-path: polygon(100% 100%, 0% 100%, 50% 0%);
+}
+
+.mask-eye {
+    position: absolute;
+    top: 12px;
+    width: 8px;
+    height: 6px;
+    background: #ff4444;
+    clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+}
+
+.mask-eye.left { left: 5px; }
+.mask-eye.right { right: 5px; }
+
+.mask-nose {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 8px;
+    background: #1a1a2a;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+/* Braços */
+.player-arm-back {
+    position: absolute;
+    top: 35px;
+    left: 5px;
+    width: 12px;
+    height: 35px;
+    background: linear-gradient(90deg, #1a1a2a 0%, #2a2a3a 100%);
+    border-radius: 3px;
+    transform: rotate(-15deg);
+}
+
+.player-arm-front {
+    position: absolute;
+    top: 35px;
+    right: 5px;
+    width: 12px;
+    height: 35px;
+    background: linear-gradient(90deg, #2a2a3a 0%, #1a1a2a 100%);
+    border-radius: 3px;
+    transform: rotate(15deg);
+}
+
+/* Pernas */
 .player-legs {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 30px;
-    height: 35px;
+    height: 25px;
 }
 
-.player-legs::before {
-    content: '';
+.player-legs .leg {
+    position: absolute;
+    bottom: 0;
+    width: 10px;
+    height: 25px;
+    background: linear-gradient(180deg, #2a2a3a 0%, #1a1a2a 100%);
+    border-radius: 0 0 3px 3px;
+}
+
+.player-legs .leg.left { left: 2px; }
+.player-legs .leg.right { right: 2px; }
+
+/* Espada do Kaito */
+.player-sword {
+    position: absolute;
+    top: 40px;
+    right: -25px;
+    width: 50px;
+    height: 10px;
+    transform: rotate(-30deg);
+}
+
+.sword-blade {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 35px;
+    height: 6px;
+    background: linear-gradient(90deg, #aaaaaa 0%, #dddddd 50%, #aaaaaa 100%);
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}
+
+.sword-guard {
+    position: absolute;
+    top: -2px;
+    left: 10px;
+    width: 8px;
+    height: 10px;
+    background: #c4a050;
+    border-radius: 2px;
+}
+
+.sword-handle {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    width: 12px;
+    height: 4px;
+    background: linear-gradient(90deg, #3a2a1a 0%, #5a4a3a 100%);
+    border-radius: 2px;
+}
+
+/* ============ INIMIGO - SHADOW SPIRIT ============ */
+#enemy {
+    position: absolute;
+    bottom: 120px;
+    right: 120px;
+    width: 120px;
+    height: 160px;
+    z-index: 45;
+}
+
+/* Aura de energia */
+.spirit-aura {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 180px;
+    background: radial-gradient(ellipse at center,
+        rgba(180, 100, 255, 0.3) 0%,
+        rgba(150, 50, 200, 0.2) 30%,
+        transparent 70%
+    );
+    animation: aura-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes aura-pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+    50% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+}
+
+/* Corpo do espírito */
+.spirit-body {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 90px;
+    background: linear-gradient(180deg,
+        #3a2050 0%,
+        #2a1040 50%,
+        #1a0830 100%
+    );
+    clip-path: polygon(
+        30% 0%, 70% 0%,
+        85% 30%, 90% 60%,
+        80% 100%, 20% 100%,
+        10% 60%, 15% 30%
+    );
+    box-shadow: 
+        0 0 20px rgba(180, 100, 255, 0.5),
+        inset 0 0 20px rgba(200, 150, 255, 0.3);
+}
+
+/* Cabeça */
+.spirit-head {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(180deg, #4a3060 0%, #2a1040 100%);
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: 0 0 15px rgba(180, 100, 255, 0.6);
+}
+
+.spirit-eye {
+    position: absolute;
+    top: 15px;
+    width: 12px;
+    height: 8px;
+    background: #ffffff;
+    box-shadow: 0 0 10px #ffffff, 0 0 20px #88ffff;
+    clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+}
+
+.spirit-eye.left { left: 8px; }
+.spirit-eye.right { right: 8px; }
+
+/* Braços do espírito */
+.spirit-arms {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 60px;
+}
+
+.spirit-arm {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 50px;
+    background: linear-gradient(180deg,
+        rgba(60, 40, 80, 0.8) 0%,
+        rgba(40, 20, 60, 0.6) 100%
+    );
+    border-radius: 10px;
+}
+
+.spirit-arm.left {
+    left: 0;
+    transform: rotate(30deg);
+}
+
+.spirit-arm.right {
+    right: 0;
+    transform: rotate(-30deg);
+}
+
+/* Espada de energia */
+.energy-sword {
+    position: absolute;
+    top: 60px;
+    right: -40px;
+    width: 80px;
+    height: 12px;
+    background: linear-gradient(90deg,
+        rgba(200, 100, 255, 0.8) 0%,
+        rgba(255, 150, 255, 1) 50%,
+        rgba(200, 100, 255, 0.8) 100%
+    );
+    box-shadow: 
+        0 0 15px rgba(200, 100, 255, 0.8),
+        0 0 30px rgba(200, 100, 255, 0.5);
+    clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+    animation: sword-glow 0.5s ease-in-out infinite;
+}
+
+@keyframes sword-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(200, 100, 255, 0.8), 0 0 30px rgba(200, 100, 255, 0.5); }
+    50% { box-shadow: 0 0 25px rgba(200, 100, 255, 1), 0 0 50px rgba(200, 100, 255, 0.8); }
+}
+
+/* ============ CAIXA DE DIÁLOGO ============ */
+#dialogue-box {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 10px;
-    height: 35px;
-    background: #1a1a2e;
-    border-radius: 0 0 3px 3px;
-}
-
-.player-legs::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 35px;
-    background: #1a1a2e;
-    border-radius: 0 0 3px 3px;
-}
-
-.player-sword {
-    position: absolute;
-    bottom: 10px;
-    left: -15px;
-    width: 8px;
-    height: 90px;
-    background: linear-gradient(180deg, #e0e0e0 0%, #b0b0b0 50%, #808080 100%);
-    transform: rotate(25deg);
-    border-radius: 2px;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.player-sword::before {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 8px;
-    background: #4a4a4a;
-    border-radius: 2px;
-}
-
-.player-sword::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 20px;
-    background: linear-gradient(180deg, #5a4a3a 0%, #3a2a1a 100%);
-    border-radius: 0 0 3px 3px;
-}
-
-/* ============ PINTINHOS ============ */
-.chick {
-    position: absolute;
-    width: 30px;
-    height: 28px;
-    z-index: 40;
-    animation: chick-bounce 0.6s ease-in-out infinite;
-}
-
-.chick-body {
-    width: 25px;
-    height: 22px;
-    background: linear-gradient(180deg, #ffd93d 0%, #f4c430 50%, #daa520 100%);
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-}
-
-.chick-eye {
-    position: absolute;
-    top: 6px;
-    width: 4px;
-    height: 4px;
-    background: #1a1a1a;
-    border-radius: 50%;
-}
-
-.chick-eye.left {
-    left: 5px;
-}
-
-.chick-eye.right {
-    right: 5px;
-}
-
-.chick-beak {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 4px;
-    background: #ff6b35;
-    border-radius: 0 0 3px 3px;
-}
-
-.chick-wing {
-    position: absolute;
-    bottom: 8px;
-    width: 8px;
-    height: 10px;
-    background: #e6c200;
-    border-radius: 50%;
-}
-
-.chick-wing.left {
-    left: -2px;
-}
-
-.chick-wing.right {
-    right: -2px;
-}
-
-@keyframes chick-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
-}
-
-/* ============ DECORAÇÕES ============ */
-#decorations {
-    position: absolute;
     width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 30;
+    height: 140px;
+    background: rgba(10, 10, 20, 0.95);
+    border-top: 3px solid #3a3a5a;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    pointer-events: auto;
 }
 
-.flower {
-    position: absolute;
+#dialogue-box.hidden {
+    display: none;
+}
+
+.dialogue-content {
+    flex: 1;
+}
+
+.dialogue-name {
     font-size: 16px;
-    animation: flower-sway 2s ease-in-out infinite;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: 0 0 5px currentColor;
 }
 
-.flower-1 {
-    bottom: 170px;
-    left: 10%;
-    color: #ffeb3b;
+.dialogue-name.kaito {
+    color: #f4d03f;
 }
 
-.flower-2 {
-    bottom: 165px;
-    left: 80%;
-    color: #e91e63;
+.dialogue-name.spirit {
+    color: #bb88ff;
 }
 
-.flower-3 {
-    bottom: 175px;
-    left: 60%;
-    color: #9c27b0;
-}
-
-@keyframes flower-sway {
-    0%, 100% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-}
-
-.sparkle {
-    position: absolute;
-    font-size: 12px;
+.dialogue-text {
+    font-size: 14px;
     color: #ffffff;
-    animation: sparkle-twinkle 1.5s ease-in-out infinite;
-    text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    line-height: 1.5;
 }
 
-.sparkle-1 {
-    top: 200px;
-    right: 15%;
-    animation-delay: 0s;
+.dialogue-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-.sparkle-2 {
-    top: 300px;
-    left: 25%;
-    animation-delay: 0.5s;
+.dialogue-btn {
+    padding: 8px 20px;
+    background: linear-gradient(180deg, #3a3a5a 0%, #2a2a4a 100%);
+    border: 2px solid #5a5a7a;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-.sparkle-3 {
-    bottom: 100px;
-    right: 5%;
-    animation-delay: 1s;
-    font-size: 20px;
+.dialogue-btn:hover {
+    background: linear-gradient(180deg, #4a4a6a 0%, #3a3a5a 100%);
+    border-color: #7a7a9a;
 }
 
-@keyframes sparkle-twinkle {
-    0%, 100% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
+/* ============ ESTADOS E ANIMAÇÕES ============ */
+#player.jumping {
+    animation: player-jump 0.5s ease-out;
+}
+
+@keyframes player-jump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-60px); }
+    100% { transform: translateY(0); }
+}
+
+#player.attacking .player-sword {
+    animation: sword-swing 0.2s ease-out;
+}
+
+@keyframes sword-swing {
+    0% { transform: rotate(-30deg); }
+    50% { transform: rotate(-80deg); }
+    100% { transform: rotate(-30deg); }
 }
 
 /* ============ RESPONSIVO ============ */
-@media (max-width: 820px) {
+@media (max-width: 980px) {
     #game-container {
         width: 100vw;
-        height: 75vw;
+        height: 56.25vw;
         max-height: 100vh;
     }
 }
