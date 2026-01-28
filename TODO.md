@@ -13,6 +13,7 @@
 - [x] Fase principal jogável
 - [ ] Chefe simples (opcional)
 - [ ] Sistema dia/noite (opcional)
+- [x] Sistema de pause com ESC
 
 ## Arte
 - [ ] Sprite do personagem principal (sem máscara e com máscara)
