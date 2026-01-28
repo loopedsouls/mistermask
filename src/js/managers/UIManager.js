@@ -92,6 +92,44 @@ class UIManager {
     setPlayerAttacking(attacking) {
         this.elements.player?.classList.toggle('attacking', attacking);
     }
+
+    showPauseMenu() {
+        let pauseMenu = document.getElementById('pause-menu');
+        if (!pauseMenu) {
+            pauseMenu = document.createElement('div');
+            pauseMenu.id = 'pause-menu';
+            pauseMenu.className = 'pause-menu';
+            pauseMenu.innerHTML = `
+                <div class="pause-overlay"></div>
+                <div class="pause-content">
+                    <h2>PAUSADO</h2>
+                    <p>Pressione ESC para continuar</p>
+                    <div class="pause-options">
+                        <button class="pause-btn" id="resume-btn">Continuar (ESC)</button>
+                        <button class="pause-btn" id="menu-btn">Voltar ao Menu</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('game-container')?.appendChild(pauseMenu);
+            
+            // Eventos
+            document.getElementById('resume-btn')?.addEventListener('click', () => {
+                import('./Game.js').then(module => module.game.togglePause());
+            });
+            document.getElementById('menu-btn')?.addEventListener('click', () => {
+                // Voltar ao menu
+                window.location.reload(); // Simples reload por enquanto
+            });
+        }
+        pauseMenu.classList.remove('hidden');
+    }
+
+    hidePauseMenu() {
+        const pauseMenu = document.getElementById('pause-menu');
+        if (pauseMenu) {
+            pauseMenu.classList.add('hidden');
+        }
+    }
 }
 
 export const uiManager = new UIManager();

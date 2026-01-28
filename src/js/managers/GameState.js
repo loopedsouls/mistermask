@@ -43,6 +43,7 @@ class GameState {
         };
         
         this.keys = {};
+        this.isPaused = false;
     }
 
     // Screen
@@ -192,6 +193,19 @@ class GameState {
         if (data.player) {
             Object.assign(this.player, data.player);
         }
+    }
+
+    // Pause
+    togglePause() {
+        this.isPaused = !this.isPaused;
+    }
+
+    pause() {
+        this.isPaused = true;
+    }
+
+    resume() {
+        this.isPaused = false;
     }
 }
 

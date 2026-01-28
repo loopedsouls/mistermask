@@ -124,6 +124,15 @@ class Game {
             return;
         }
         
+        // Pause
+        if (key === 'escape') {
+            this.togglePause();
+            return;
+        }
+        
+        // Se pausado, ignorar outros inputs
+        if (gameState.isPaused) return;
+        
         // Controles de jogo
         if (key === ' ') {
             event.preventDefault();
@@ -148,9 +157,19 @@ class Game {
         }
         if (key === '3' && gameState.isMaskUnlocked(MASKS.ORACLE)) {
             henshinSystem.trigger(MASKS.ORACLE);
+            henshinSystem.trigger(MASKS.ORACLE);
         }
         if (key === '4' && gameState.isMaskUnlocked(MASKS.FORBIDDEN)) {
             henshinSystem.trigger(MASKS.FORBIDDEN);
+        }
+    }
+
+    togglePause() {
+        gameState.togglePause();
+        if (gameState.isPaused) {
+            uiManager.showPauseMenu();
+        } else {
+            uiManager.hidePauseMenu();
         }
     }
 
@@ -176,7 +195,7 @@ class Game {
         const loop = () => {
             if (!this.isRunning) return;
             
-            if (gameState.isScreen(SCREENS.GAME)) {
+            if (gameState.isScreen(SCREENS.GAME) && !gameState.isPaused) {
                 combatSystem.update();
             }
             
