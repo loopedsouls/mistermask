@@ -1,251 +1,433 @@
+// ============ GAME CONFIG ============
+const GAME_WIDTH = 1280;
+const GAME_HEIGHT = 720;
+
 // ============ GAME STATE ============
 const gameState = {
+    currentScreen: 'splash', // splash, menu, options, game
+    menuSelection: 0,
     player: {
-        health: 410,
-        maxHealth: 500,
-        mana: 360,
-        maxMana: 450,
-        level: 50,
-        gold: 1600,
-        x: 400,
-        y: 300
+        hp: 85,
+        maxHp: 100,
+        mp: 70,
+        maxMp: 100,
+        x: 500,
+        y: 0,
+        isJumping: false,
+        isAttacking: false,
+        facingRight: true
     },
-    chicks: [],
+    enemy: {
+        hp: 100,
+        maxHp: 100,
+        x: 900,
+        y: 0
+    },
+    dialogue: {
+        active: false,
+        currentIndex: 0,
+        lines: [
+            { speaker: 'KAITO', text: '"The ancient Guardian has awakened. The balance of masks is broken!"', class: 'kaito' },
+            { speaker: 'SHADOW SPIRIT', text: '"Yes, little wolf. The prophecy is unfolding."', class: 'spirit' },
+            { speaker: 'KAITO', text: '"I will restore balance... no matter the cost."', class: 'kaito' }
+        ]
+    },
     keys: {}
 };
 
+const menuOptions = ['1player', '2player', 'options'];
+
 // ============ INICIALIZAÇÃO ============
 document.addEventListener('DOMContentLoaded', () => {
-    initChicks();
+    initScreenScaling();
+    initSplashScreen();
     initControls();
-    updateUI();
-    startGameLoop();
 });
 
-// ============ CRIAR PINTINHOS ============
-function initChicks() {
-    const container = document.getElementById('chicks-container');
-    const chickPositions = [
-        { x: 80, y: 440 },
-        { x: 150, y: 460 },
-        { x: 220, y: 450 },
-        { x: 280, y: 470 },
-        { x: 350, y: 455 },
-        { x: 450, y: 465 },
-        { x: 520, y: 450 },
-        { x: 580, y: 470 },
-        { x: 640, y: 455 },
-        { x: 700, y: 445 },
-        { x: 180, y: 480 },
-        { x: 400, y: 485 },
-        { x: 600, y: 480 }
-    ];
+// ============ SCREEN SCALING ============
+function initScreenScaling() {
+    resizeGame();
+    window.addEventListener('resize', resizeGame);
+}
 
-    chickPositions.forEach((pos, index) => {
-        const chick = createChick(pos.x, pos.y, index);
-        container.appendChild(chick);
-        gameState.chicks.push({
-            element: chick,
-            x: pos.x,
-            y: pos.y,
-            direction: Math.random() > 0.5 ? 1 : -1,
-            speed: 0.3 + Math.random() * 0.3
+function resizeGame() {
+    const container = document.getElementById('game-container');
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Calcular escala mantendo aspect ratio 16:9
+    const scaleX = windowWidth / GAME_WIDTH;
+    const scaleY = windowHeight / GAME_HEIGHT;
+    const scale = Math.min(scaleX, scaleY);
+    
+    // Aplicar escala
+    container.style.transform = `scale(${scale})`;
+    container.style.transformOrigin = 'center center';
+}
+
+// ============ SPLASH SCREEN ============
+function initSplashScreen() {
+    const loadingFill = document.getElementById('loading-fill');
+    let progress = 0;
+    
+    const loadingInterval = setInterval(() => {
+        progress += Math.random() * 15 + 5;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(loadingInterval);
+            
+            // Aguardar um pouco e ir para o menu
+            setTimeout(() => {
+                hideSplashScreen();
+            }, 500);
+        }
+        loadingFill.style.width = `${progress}%`;
+    }, 200);
+}
+
+function hideSplashScreen() {
+    const splash = document.getElementById('splash-screen');
+    splash.style.animation = 'splash-fade-out 0.5s ease-out forwards';
+    
+    setTimeout(() => {
+        splash.classList.add('hidden');
+        showMainMenu();
+    }, 500);
+}
+
+// ============ MAIN MENU ============
+function showMainMenu() {
+    gameState.currentScreen = 'menu';
+    gameState.menuSelection = 0;
+    
+    const menu = document.getElementById('main-menu');
+    menu.classList.remove('hidden');
+    menu.style.animation = 'menu-fade-in 0.5s ease-out';
+    
+    updateMenuSelection();
+    initMenuButtons();
+}
+
+function hideMainMenu() {
+    const menu = document.getElementById('main-menu');
+    menu.classList.add('hidden');
+}
+
+function initMenuButtons() {
+    document.querySelectorAll('.menu-btn').forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            handleMenuSelect(btn.dataset.option);
+        });
+        
+        btn.addEventListener('mouseenter', () => {
+            if (btn.dataset.option !== 'back') {
+                gameState.menuSelection = index;
+                updateMenuSelection();
+            }
         });
     });
 }
 
-function createChick(x, y, index) {
-    const chick = document.createElement('div');
-    chick.className = 'chick';
-    chick.style.left = `${x}px`;
-    chick.style.bottom = `${600 - y}px`;
-    chick.style.animationDelay = `${index * 0.1}s`;
+function updateMenuSelection() {
+    document.querySelectorAll('#main-menu .menu-btn').forEach((btn, index) => {
+        if (index === gameState.menuSelection) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
+    });
+}
 
-    chick.innerHTML = `
-        <div class="chick-body">
-            <div class="chick-eye left"></div>
-            <div class="chick-eye right"></div>
-            <div class="chick-beak"></div>
-            <div class="chick-wing left"></div>
-            <div class="chick-wing right"></div>
-        </div>
-    `;
+function handleMenuSelect(option) {
+    switch(option) {
+        case '1player':
+            startGame(1);
+            break;
+        case '2player':
+            startGame(2);
+            break;
+        case 'options':
+            showOptions();
+            break;
+        case 'back':
+            hideOptions();
+            break;
+    }
+}
 
-    return chick;
+// ============ OPTIONS ============
+function showOptions() {
+    gameState.currentScreen = 'options';
+    document.getElementById('options-menu').classList.remove('hidden');
+    
+    // Botão de voltar
+    document.querySelector('.back-btn')?.addEventListener('click', hideOptions);
+}
+
+function hideOptions() {
+    gameState.currentScreen = 'menu';
+    document.getElementById('options-menu').classList.add('hidden');
+}
+
+// ============ START GAME ============
+function startGame(players) {
+    console.log(`Starting game with ${players} player(s)`);
+    gameState.currentScreen = 'game';
+    
+    hideMainMenu();
+    document.getElementById('game-screen').classList.remove('hidden');
+    
+    updateUI();
+    startGameLoop();
+    
+    // Mostrar diálogo inicial após 1 segundo
+    setTimeout(() => {
+        showDialogue();
+    }, 1000);
 }
 
 // ============ CONTROLES ============
 function initControls() {
     document.addEventListener('keydown', (e) => {
-        gameState.keys[e.key] = true;
-        handleInput(e.key);
+        gameState.keys[e.key.toLowerCase()] = true;
+        
+        // Menu navigation
+        if (gameState.currentScreen === 'menu') {
+            handleMenuInput(e.key);
+            return;
+        }
+        
+        // Options navigation
+        if (gameState.currentScreen === 'options') {
+            if (e.key === 'Escape' || e.key === 'Backspace') {
+                hideOptions();
+            }
+            return;
+        }
+        
+        // Game controls
+        if (gameState.currentScreen === 'game') {
+            if (e.key === ' ') {
+                e.preventDefault();
+                attack();
+            }
+            if (e.key.toLowerCase() === 'w' || e.key === 'ArrowUp') {
+                jump();
+            }
+            if (e.key === 'Enter') {
+                if (gameState.dialogue.active) {
+                    nextDialogue();
+                }
+            }
+            if (e.key === 'Escape') {
+                hideDialogue();
+            }
+        }
     });
 
     document.addEventListener('keyup', (e) => {
-        gameState.keys[e.key] = false;
+        gameState.keys[e.key.toLowerCase()] = false;
     });
 
-    // Clique nos slots
-    document.querySelectorAll('.slot').forEach(slot => {
-        slot.addEventListener('click', () => {
-            const slotNum = slot.dataset.slot;
-            useItem(slotNum);
-        });
-    });
+    // Botões de diálogo
+    document.getElementById('btn-next')?.addEventListener('click', nextDialogue);
+    document.getElementById('btn-log')?.addEventListener('click', () => console.log('Log opened'));
+    document.getElementById('btn-menu')?.addEventListener('click', () => console.log('Menu opened'));
 }
 
-function handleInput(key) {
-    const player = document.getElementById('player');
-    const speed = 15;
-
+function handleMenuInput(key) {
     switch(key) {
-        case 'ArrowLeft':
-        case 'a':
-            gameState.player.x = Math.max(50, gameState.player.x - speed);
-            player.style.transform = `translateX(-50%) scaleX(-1)`;
+        case 'ArrowUp':
+        case 'w':
+        case 'W':
+            gameState.menuSelection = Math.max(0, gameState.menuSelection - 1);
+            updateMenuSelection();
             break;
-        case 'ArrowRight':
-        case 'd':
-            gameState.player.x = Math.min(750, gameState.player.x + speed);
-            player.style.transform = `translateX(-50%) scaleX(1)`;
+        case 'ArrowDown':
+        case 's':
+        case 'S':
+            gameState.menuSelection = Math.min(menuOptions.length - 1, gameState.menuSelection + 1);
+            updateMenuSelection();
             break;
+        case 'Enter':
         case ' ':
-            attack();
+            handleMenuSelect(menuOptions[gameState.menuSelection]);
             break;
+    }
+}
+
+// ============ MOVIMENTAÇÃO ============
+function updateMovement() {
+    if (gameState.currentScreen !== 'game') return;
+    
+    const player = document.getElementById('player');
+    const speed = 5;
+
+    if (gameState.keys['a'] || gameState.keys['arrowleft']) {
+        gameState.player.x = Math.max(50, gameState.player.x - speed);
+        gameState.player.facingRight = false;
+        player.style.transform = 'scaleX(-1)';
+    }
+    if (gameState.keys['d'] || gameState.keys['arrowright']) {
+        gameState.player.x = Math.min(GAME_WIDTH - 100, gameState.player.x + speed);
+        gameState.player.facingRight = true;
+        player.style.transform = 'scaleX(1)';
     }
 
     player.style.left = `${gameState.player.x}px`;
 }
 
-function useItem(slotNum) {
-    console.log(`Usando item do slot ${slotNum}`);
+function jump() {
+    if (gameState.player.isJumping) return;
     
-    switch(slotNum) {
-        case '2': // Poção
-            if (gameState.player.health < gameState.player.maxHealth) {
-                gameState.player.health = Math.min(
-                    gameState.player.maxHealth,
-                    gameState.player.health + 50
-                );
-                updateUI();
-                showFloatingText('+50 HP', '#ff6b6b');
-            }
-            break;
-        case '3': // Magia
-            if (gameState.player.mana >= 30) {
-                gameState.player.mana -= 30;
-                updateUI();
-                castMagic();
-            }
-            break;
-    }
+    gameState.player.isJumping = true;
+    const player = document.getElementById('player');
+    player.classList.add('jumping');
+    
+    setTimeout(() => {
+        player.classList.remove('jumping');
+        gameState.player.isJumping = false;
+    }, 500);
 }
 
 function attack() {
+    if (gameState.player.isAttacking) return;
+    
+    gameState.player.isAttacking = true;
     const player = document.getElementById('player');
     player.classList.add('attacking');
-    setTimeout(() => player.classList.remove('attacking'), 200);
+    
+    checkAttackCollision();
+    
+    setTimeout(() => {
+        player.classList.remove('attacking');
+        gameState.player.isAttacking = false;
+    }, 200);
 }
 
-function castMagic() {
-    const magic = document.createElement('div');
-    magic.style.cssText = `
-        position: absolute;
-        left: ${gameState.player.x}px;
-        bottom: 200px;
-        width: 40px;
-        height: 40px;
-        background: radial-gradient(circle, #9b59b6, transparent);
-        border-radius: 50%;
-        animation: magic-pulse 0.5s ease-out forwards;
-        z-index: 60;
-    `;
-    document.getElementById('game-container').appendChild(magic);
-    setTimeout(() => magic.remove(), 500);
+function checkAttackCollision() {
+    const playerX = gameState.player.x;
+    const enemyX = gameState.enemy.x;
+    const attackRange = 100;
+    
+    if (Math.abs(playerX - enemyX) < attackRange) {
+        gameState.enemy.hp = Math.max(0, gameState.enemy.hp - 10);
+        showDamageEffect();
+    }
+}
+
+function showDamageEffect() {
+    const enemy = document.getElementById('enemy');
+    enemy.style.filter = 'brightness(2)';
+    setTimeout(() => {
+        enemy.style.filter = 'none';
+    }, 100);
 }
 
 // ============ UI ============
 function updateUI() {
-    document.getElementById('health-value').textContent = gameState.player.health;
-    document.getElementById('level').textContent = gameState.player.level;
-    document.getElementById('gold').textContent = gameState.player.gold;
+    const hpBar = document.getElementById('hp-bar');
+    const mpBar = document.getElementById('mp-bar');
     
-    const manaPercent = (gameState.player.mana / gameState.player.maxMana) * 100;
-    document.getElementById('mana-bar').style.width = `${manaPercent}%`;
-    document.querySelector('.mana-text').textContent = gameState.player.mana;
+    if (hpBar && mpBar) {
+        const hpPercent = (gameState.player.hp / gameState.player.maxHp) * 100;
+        const mpPercent = (gameState.player.mp / gameState.player.maxMp) * 100;
+        
+        hpBar.style.width = `${hpPercent}%`;
+        mpBar.style.width = `${mpPercent}%`;
+    }
 }
 
-function showFloatingText(text, color) {
-    const floatText = document.createElement('div');
-    floatText.textContent = text;
-    floatText.style.cssText = `
-        position: absolute;
-        left: ${gameState.player.x}px;
-        bottom: 350px;
-        color: ${color};
-        font-size: 18px;
-        font-weight: bold;
-        text-shadow: 2px 2px 0 #000;
-        animation: float-up 1s ease-out forwards;
-        z-index: 100;
-    `;
-    document.getElementById('game-container').appendChild(floatText);
-    setTimeout(() => floatText.remove(), 1000);
+// ============ SISTEMA DE DIÁLOGO ============
+function showDialogue() {
+    const dialogueBox = document.getElementById('dialogue-box');
+    if (dialogueBox) {
+        dialogueBox.classList.remove('hidden');
+        gameState.dialogue.active = true;
+        gameState.dialogue.currentIndex = 0;
+        updateDialogueText();
+    }
+}
+
+function hideDialogue() {
+    const dialogueBox = document.getElementById('dialogue-box');
+    if (dialogueBox) {
+        dialogueBox.classList.add('hidden');
+        gameState.dialogue.active = false;
+    }
+}
+
+function nextDialogue() {
+    gameState.dialogue.currentIndex++;
+    
+    if (gameState.dialogue.currentIndex >= gameState.dialogue.lines.length) {
+        hideDialogue();
+        return;
+    }
+    
+    updateDialogueText();
+}
+
+function updateDialogueText() {
+    const line = gameState.dialogue.lines[gameState.dialogue.currentIndex];
+    const nameEl = document.getElementById('speaker-name');
+    const textEl = document.getElementById('dialogue-text');
+    
+    if (nameEl && textEl) {
+        nameEl.textContent = line.speaker + ':';
+        nameEl.className = 'dialogue-name ' + line.class;
+        textEl.textContent = line.text;
+    }
+}
+
+// ============ ANIMAÇÃO DO INIMIGO ============
+function updateEnemy() {
+    const enemy = document.getElementById('enemy');
+    if (enemy) {
+        const time = Date.now() / 1000;
+        const floatY = Math.sin(time * 2) * 5;
+        enemy.style.transform = `translateY(${floatY}px)`;
+    }
 }
 
 // ============ GAME LOOP ============
 function startGameLoop() {
     function loop() {
-        updateChicks();
+        if (gameState.currentScreen === 'game' && !gameState.dialogue.active) {
+            updateMovement();
+        }
+        if (gameState.currentScreen === 'game') {
+            updateEnemy();
+        }
         requestAnimationFrame(loop);
     }
     loop();
 }
 
-function updateChicks() {
-    gameState.chicks.forEach(chick => {
-        // Movimento aleatório
-        if (Math.random() < 0.01) {
-            chick.direction *= -1;
-        }
-
-        chick.x += chick.direction * chick.speed;
-        
-        // Limites
-        if (chick.x < 50) {
-            chick.x = 50;
-            chick.direction = 1;
-        }
-        if (chick.x > 750) {
-            chick.x = 750;
-            chick.direction = -1;
-        }
-
-        chick.element.style.left = `${chick.x}px`;
-        chick.element.style.transform = chick.direction < 0 ? 'scaleX(-1)' : 'scaleX(1)';
-    });
-}
-
 // ============ CSS ANIMATIONS (injetado via JS) ============
 const style = document.createElement('style');
 style.textContent = `
+    @keyframes splash-fade-out {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    
+    @keyframes menu-fade-in {
+        0% { opacity: 0; transform: scale(0.95); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+    
     @keyframes float-up {
         0% { transform: translateY(0); opacity: 1; }
         100% { transform: translateY(-50px); opacity: 0; }
     }
     
-    @keyframes magic-pulse {
-        0% { transform: scale(1); opacity: 1; }
-        100% { transform: scale(3); opacity: 0; }
-    }
-    
-    #player.attacking .player-sword {
-        transform: rotate(-30deg);
-        transition: transform 0.1s;
+    @keyframes damage-flash {
+        0%, 100% { filter: none; }
+        50% { filter: brightness(3) saturate(0); }
     }
 `;
 document.head.appendChild(style);
 
-console.log('🎮 Mister Mask - Game Loaded!');
-console.log('Controls: Arrow Keys or WASD to move, Space to attack');
-console.log('Click inventory slots to use items');
+console.log('🎭 Mister Mask - Game Loaded!');
+console.log('©2026 LoopedSouls All Rights Reserved');

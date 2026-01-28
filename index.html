@@ -8,79 +8,186 @@
 </head>
 <body>
     <div id="game-container">
-        <!-- Cenário de fundo -->
-        <div id="background">
-            <div class="tree tree-1"></div>
-            <div class="tree tree-2"></div>
-            <div class="tree tree-3"></div>
-            <div class="mushroom mushroom-large"></div>
-            <div class="mushroom mushroom-medium"></div>
-            <div class="mushroom mushroom-small-1"></div>
-            <div class="mushroom mushroom-small-2"></div>
-            <div class="mushroom mushroom-small-3"></div>
-            <div class="ground"></div>
-            <div class="grass"></div>
-        </div>
-
-        <!-- UI do Jogo -->
-        <div id="game-ui">
-            <!-- Painel de Status -->
-            <div id="status-panel">
-                <div class="health-row">
-                    <div class="heart-icon">❤️</div>
-                    <span id="health-value" class="stat-value">410</span>
-                    <div class="companion-heart">💚</div>
-                    <span id="companion-health" class="stat-value small">♪♫♪</span>
-                </div>
-                <div class="mana-bar">
-                    <div class="mana-fill" id="mana-bar"></div>
-                    <span class="mana-text">360</span>
-                </div>
-                <div class="level-row">
-                    <span class="level-text">Lv. <span id="level">50</span></span>
-                    <span class="gold-text"><span id="gold">1600</span>$</span>
-                </div>
-                <!-- Inventory Slots -->
-                <div id="inventory-slots">
-                    <div class="slot" data-slot="1">
-                        <div class="slot-item sword-icon"></div>
-                    </div>
-                    <div class="slot" data-slot="2">
-                        <div class="slot-item potion-icon"></div>
-                        <span class="slot-count">51</span>
-                    </div>
-                    <div class="slot" data-slot="3">
-                        <div class="slot-item magic-icon"></div>
-                    </div>
-                    <div class="slot" data-slot="4">
-                        <div class="slot-item shield-icon"></div>
-                    </div>
+        <!-- SPLASH SCREEN -->
+        <div id="splash-screen">
+            <img src="assets/splashscreen_loopedsouls.png" alt="LoopedSouls" class="splash-image">
+            <div class="splash-loading">
+                <div class="loading-bar">
+                    <div class="loading-fill" id="loading-fill"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Personagem Principal -->
-        <div id="player">
-            <div class="player-mask"></div>
-            <div class="player-horn-left"></div>
-            <div class="player-horn-right"></div>
-            <div class="player-cloak"></div>
-            <div class="player-dress"></div>
-            <div class="player-legs"></div>
-            <div class="player-sword"></div>
+        <!-- MAIN MENU -->
+        <div id="main-menu" class="hidden">
+            <div class="menu-background">
+                <div class="menu-particles"></div>
+            </div>
+            <div class="menu-content">
+                <div class="game-title">
+                    <span class="title-mister">MISTER</span>
+                    <span class="title-mask">MASK</span>
+                </div>
+                <div class="menu-mask-icon">
+                    <div class="menu-mask">
+                        <div class="mm-ear left"></div>
+                        <div class="mm-ear right"></div>
+                        <div class="mm-eye left"></div>
+                        <div class="mm-eye right"></div>
+                        <div class="mm-nose"></div>
+                    </div>
+                </div>
+                <nav class="menu-options">
+                    <button class="menu-btn" data-option="1player">
+                        <span class="btn-icon">▶</span>
+                        <span class="btn-text">1 PLAYER</span>
+                    </button>
+                    <button class="menu-btn" data-option="2player">
+                        <span class="btn-icon">▶▶</span>
+                        <span class="btn-text">2 PLAYERS</span>
+                    </button>
+                    <button class="menu-btn" data-option="options">
+                        <span class="btn-icon">⚙</span>
+                        <span class="btn-text">OPTIONS</span>
+                    </button>
+                </nav>
+                <div class="menu-footer">
+                    <p class="copyright">©2026 LoopedSouls All Rights Reserved</p>
+                </div>
+            </div>
+            <div class="menu-hint">Press ENTER to select</div>
         </div>
 
-        <!-- Pintinhos -->
-        <div id="chicks-container"></div>
+        <!-- OPTIONS MENU -->
+        <div id="options-menu" class="hidden">
+            <div class="options-panel">
+                <h2 class="options-title">OPTIONS</h2>
+                <div class="option-row">
+                    <span class="option-label">Music</span>
+                    <div class="option-slider">
+                        <div class="slider-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="option-row">
+                    <span class="option-label">SFX</span>
+                    <div class="option-slider">
+                        <div class="slider-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="option-row">
+                    <span class="option-label">Fullscreen</span>
+                    <span class="option-toggle">OFF</span>
+                </div>
+                <button class="menu-btn back-btn" data-option="back">
+                    <span class="btn-text">← BACK</span>
+                </button>
+            </div>
+        </div>
 
-        <!-- Flores e decorações -->
-        <div id="decorations">
-            <div class="flower flower-1">✿</div>
-            <div class="flower flower-2">❀</div>
-            <div class="flower flower-3">✿</div>
-            <div class="sparkle sparkle-1">✦</div>
-            <div class="sparkle sparkle-2">✧</div>
-            <div class="sparkle sparkle-3">✦</div>
+        <!-- GAME SCREEN -->
+        <div id="game-screen" class="hidden">
+            <!-- Cenário de fundo -->
+            <div id="background">
+                <!-- Céu com nuvens -->
+                <div class="sky"></div>
+                <div class="clouds"></div>
+                
+                <!-- Estátuas Oni -->
+                <div class="oni-statue oni-left"></div>
+                <div class="oni-statue oni-right"></div>
+                
+                <!-- Cidade ao fundo -->
+                <div class="bg-city"></div>
+                
+                <!-- Templo japonês -->
+                <div class="temple-roof"></div>
+                
+                <!-- Ponte -->
+                <div class="bridge">
+                    <div class="bridge-pillar pillar-1"></div>
+                    <div class="bridge-pillar pillar-2"></div>
+                    <div class="bridge-pillar pillar-3"></div>
+                    <div class="bridge-floor"></div>
+                    <div class="bridge-rail-back"></div>
+                </div>
+                
+                <!-- Água/Abismo -->
+                <div class="abyss"></div>
+            </div>
+
+            <!-- UI do Jogo -->
+            <div id="game-ui">
+                <!-- Painel de Status -->
+                <div id="status-panel">
+                    <div class="mask-icon">
+                        <div class="wolf-mask"></div>
+                    </div>
+                    <div class="bars-container">
+                        <div class="hp-bar">
+                            <div class="hp-fill" id="hp-bar"></div>
+                        </div>
+                        <div class="mp-bar">
+                            <div class="mp-fill" id="mp-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sparkle decorativo -->
+                <div class="sparkle-effect">✦</div>
+            </div>
+
+            <!-- Personagem Principal - Kaito -->
+            <div id="player">
+                <div class="player-cape"></div>
+                <div class="player-body"></div>
+                <div class="player-belt"></div>
+                <div class="player-mask-face">
+                    <div class="mask-ear left"></div>
+                    <div class="mask-ear right"></div>
+                    <div class="mask-eye left"></div>
+                    <div class="mask-eye right"></div>
+                    <div class="mask-nose"></div>
+                </div>
+                <div class="player-arm-back"></div>
+                <div class="player-arm-front"></div>
+                <div class="player-legs">
+                    <div class="leg left"></div>
+                    <div class="leg right"></div>
+                </div>
+                <div class="player-sword">
+                    <div class="sword-blade"></div>
+                    <div class="sword-guard"></div>
+                    <div class="sword-handle"></div>
+                </div>
+            </div>
+
+            <!-- Inimigo - Shadow Spirit -->
+            <div id="enemy">
+                <div class="spirit-aura"></div>
+                <div class="spirit-body"></div>
+                <div class="spirit-head">
+                    <div class="spirit-eye left"></div>
+                    <div class="spirit-eye right"></div>
+                </div>
+                <div class="spirit-arms">
+                    <div class="spirit-arm left"></div>
+                    <div class="spirit-arm right"></div>
+                </div>
+                <div class="energy-sword"></div>
+            </div>
+
+            <!-- Caixa de Diálogo -->
+            <div id="dialogue-box" class="hidden">
+                <div class="dialogue-content">
+                    <p class="dialogue-name" id="speaker-name">KAITO:</p>
+                    <p class="dialogue-text" id="dialogue-text">"The ancient Guardian has awakened. The balance of masks is broken!"</p>
+                </div>
+                <div class="dialogue-buttons">
+                    <button class="dialogue-btn" id="btn-next">Next</button>
+                    <button class="dialogue-btn" id="btn-log">Log</button>
+                    <button class="dialogue-btn" id="btn-menu">Menu</button>
+                </div>
+            </div>
         </div>
     </div>
 
