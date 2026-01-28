@@ -114,7 +114,7 @@ class UIManager {
             
             // Eventos
             document.getElementById('resume-btn')?.addEventListener('click', () => {
-                import('./Game.js').then(module => module.game.togglePause());
+                eventBus.emit('pause-toggle');
             });
             document.getElementById('menu-btn')?.addEventListener('click', () => {
                 // Voltar ao menu

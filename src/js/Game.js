@@ -50,6 +50,9 @@ class Game {
         // Configurar eventos de input
         this.setupInputHandlers();
         
+        // Configurar eventos do eventBus
+        eventBus.on('pause-toggle', () => this.togglePause());
+        
         // Injetar animações CSS
         this.injectAnimations();
         
