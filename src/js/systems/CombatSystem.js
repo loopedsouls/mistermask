@@ -44,14 +44,14 @@ class CombatSystem {
     updateMovement() {
         const player = gameState.player;
         
-        // Movimento horizontal
+        // Movimento horizontal - permitir ir até a borda para transições
         if (gameState.isKeyPressed('arrowleft')) {
-            player.x = Math.max(30, player.x - PLAYER_SPEED);
+            player.x = Math.max(0, player.x - PLAYER_SPEED);
             player.facingRight = false;
         }
         
         if (gameState.isKeyPressed('arrowright')) {
-            player.x = Math.min(GAME_WIDTH - 80, player.x + PLAYER_SPEED);
+            player.x = Math.min(GAME_WIDTH - 50, player.x + PLAYER_SPEED);
             player.facingRight = true;
         }
         

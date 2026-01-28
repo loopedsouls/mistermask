@@ -247,30 +247,31 @@ class RoomSystem {
         if (this.transitionLocked) return;
         if (!this.currentRoom?.exits) return;
 
-        const margin = 30;
+        const marginH = 50; // Margem horizontal
+        const marginV = 100; // Margem vertical
         let targetRoom = null;
         let newPlayerX = playerX;
         let newPlayerY = playerY;
 
         // Saída pela direita
-        if (playerX >= GAME_WIDTH - margin && this.currentRoom.exits.right) {
+        if (playerX >= GAME_WIDTH - marginH && this.currentRoom.exits.right) {
             targetRoom = this.currentRoom.exits.right;
-            newPlayerX = margin + 50; // Spawnar na esquerda da nova sala
+            newPlayerX = marginH + 30;
         }
         // Saída pela esquerda
-        else if (playerX <= margin && this.currentRoom.exits.left) {
+        else if (playerX <= marginH && this.currentRoom.exits.left) {
             targetRoom = this.currentRoom.exits.left;
-            newPlayerX = GAME_WIDTH - margin - 50; // Spawnar na direita da nova sala
+            newPlayerX = GAME_WIDTH - marginH - 80;
         }
-        // Saída por cima
-        else if (playerY <= margin && this.currentRoom.exits.up) {
+        // Saída por cima (pulo em plataforma superior)
+        else if (playerY <= marginV && this.currentRoom.exits.up) {
             targetRoom = this.currentRoom.exits.up;
-            newPlayerY = GAME_HEIGHT - margin - 100;
+            newPlayerY = GAME_HEIGHT - marginV - 50;
         }
-        // Saída por baixo
-        else if (playerY >= GAME_HEIGHT - margin && this.currentRoom.exits.down) {
+        // Saída por baixo (queda)
+        else if (playerY >= GAME_HEIGHT - marginV && this.currentRoom.exits.down) {
             targetRoom = this.currentRoom.exits.down;
-            newPlayerY = margin + 50;
+            newPlayerY = marginV;
         }
 
         if (targetRoom) {
