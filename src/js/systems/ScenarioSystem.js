@@ -53,7 +53,9 @@ class ScenarioSystem {
 
     createElement(type, scenarioId) {
         switch(type) {
+            // ═══════════════════════════════════════════════════
             // VOID (Prólogo)
+            // ═══════════════════════════════════════════════════
             case 'floating_data':
                 this.createFloatingData();
                 break;
@@ -64,7 +66,25 @@ class ScenarioSystem {
                 this.createDistantFrames();
                 break;
 
-            // TEMPLE (Cap 1)
+            // ═══════════════════════════════════════════════════
+            // TEMPLE ENTRANCE - Portão com lanternas de pedra
+            // ═══════════════════════════════════════════════════
+            case 'temple_gate':
+                this.createTempleGate();
+                break;
+            case 'stone_lanterns':
+                this.createStoneLanterns();
+                break;
+            case 'ancient_symbols':
+                this.createAncientSymbols();
+                break;
+            case 'mist_low':
+                this.createLowMist();
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // TEMPLE BRIDGE - Ponte com Onis
+            // ═══════════════════════════════════════════════════
             case 'oni_statues':
                 this.createOniStatues();
                 break;
@@ -78,7 +98,41 @@ class ScenarioSystem {
                 this.createDistantTemple();
                 break;
 
-            // ARCHIVES (Cap 2)
+            // ═══════════════════════════════════════════════════
+            // TEMPLE INNER - Santuário com altar
+            // ═══════════════════════════════════════════════════
+            case 'altar_scarlet':
+                this.createScarletAltar();
+                break;
+            case 'incense_smoke':
+                this.createIncenseSmoke();
+                break;
+            case 'ritual_candles':
+                this.createRitualCandles();
+                break;
+            case 'mask_pedestal':
+                this.createMaskPedestal('scarlet');
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // ARCHIVES ENTRANCE - Entrada escura
+            // ═══════════════════════════════════════════════════
+            case 'archive_door':
+                this.createArchiveDoor();
+                break;
+            case 'dust_particles':
+                this.createDustParticles();
+                break;
+            case 'faded_inscriptions':
+                this.createFadedInscriptions();
+                break;
+            case 'dim_torches':
+                this.createDimTorches();
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // ARCHIVES HALL - Corredor principal
+            // ═══════════════════════════════════════════════════
             case 'floating_scrolls':
                 this.createFloatingScrolls();
                 break;
@@ -88,11 +142,61 @@ class ScenarioSystem {
             case 'memory_orbs':
                 this.createMemoryOrbs();
                 break;
-            case 'hidden_passages':
-                // Visual hint only
+            case 'book_shelves':
+                this.createBookShelves();
                 break;
 
-            // DIGITAL (Cap 3)
+            // ═══════════════════════════════════════════════════
+            // ARCHIVES SECRET - Câmara oculta
+            // ═══════════════════════════════════════════════════
+            case 'hidden_altar':
+                this.createHiddenAltar();
+                break;
+            case 'veil_mask_glow':
+                this.createMaskPedestal('veil');
+                break;
+            case 'shadow_tendrils':
+                this.createShadowTendrils();
+                break;
+            case 'sealed_door':
+                this.createSealedDoor();
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // ARCHIVES DEPTHS - Profundezas
+            // ═══════════════════════════════════════════════════
+            case 'depth_pillars':
+                this.createDepthPillars();
+                break;
+            case 'ancient_seals':
+                this.createAncientSeals();
+                break;
+            case 'guardian_presence':
+                this.createGuardianPresence();
+                break;
+            case 'forbidden_texts':
+                this.createForbiddenTexts();
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // CORE ENTRANCE - Portal digital
+            // ═══════════════════════════════════════════════════
+            case 'portal_frame':
+                this.createPortalFrame();
+                break;
+            case 'data_particles':
+                this.createDataParticles();
+                break;
+            case 'transition_grid':
+                this.createTransitionGrid();
+                break;
+            case 'system_boot':
+                this.createSystemBoot();
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // CORE MAINFRAME - Centro de dados
+            // ═══════════════════════════════════════════════════
             case 'data_streams':
                 this.createDataStreams();
                 break;
@@ -106,7 +210,41 @@ class ScenarioSystem {
                 this.createSystemAlerts();
                 break;
 
-            // FRAME ZERO (Cap 4)
+            // ═══════════════════════════════════════════════════
+            // CORE HEART - Coração do sistema
+            // ═══════════════════════════════════════════════════
+            case 'core_sphere':
+                this.createCoreSphere();
+                break;
+            case 'energy_conduits':
+                this.createEnergyConduits();
+                break;
+            case 'oracle_mask_glow':
+                this.createMaskPedestal('oracle');
+                break;
+            case 'truth_terminal':
+                this.createTruthTerminal();
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // FRAME ZERO GATE - Portão da origem
+            // ═══════════════════════════════════════════════════
+            case 'origin_gate':
+                this.createOriginGate();
+                break;
+            case 'reality_wisps':
+                this.createRealityWisps();
+                break;
+            case 'architect_whispers':
+                this.createArchitectWhispers();
+                break;
+            case 'void_edge':
+                this.createVoidEdge();
+                break;
+
+            // ═══════════════════════════════════════════════════
+            // FRAME ZERO - Ponto de origem
+            // ═══════════════════════════════════════════════════
             case 'reality_cracks':
                 this.createRealityCracks();
                 break;
@@ -361,6 +499,296 @@ class ScenarioSystem {
             bird.style.animationDelay = `${i * 2}s`;
             this.backgroundElement.appendChild(bird);
         }
+    }
+
+    // ═══════════════════════════════════════════════════
+    // TEMPLE ENTRANCE ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createTempleGate() {
+        const gate = document.createElement('div');
+        gate.className = 'dynamic-element temple-gate';
+        this.backgroundElement.appendChild(gate);
+    }
+
+    createStoneLanterns() {
+        const positions = [150, 350, 900, 1100];
+        positions.forEach((x, i) => {
+            const lantern = document.createElement('div');
+            lantern.className = 'dynamic-element stone-lantern';
+            lantern.style.left = `${x}px`;
+            lantern.style.bottom = '150px';
+            this.backgroundElement.appendChild(lantern);
+        });
+    }
+
+    createAncientSymbols() {
+        for (let i = 0; i < 6; i++) {
+            const symbol = document.createElement('div');
+            symbol.className = 'dynamic-element ancient-symbol';
+            symbol.style.left = `${15 + Math.random() * 70}%`;
+            symbol.style.top = `${20 + Math.random() * 40}%`;
+            symbol.textContent = ['卍', '龍', '神', '魂', '道', '影'][i];
+            symbol.style.animationDelay = `${Math.random() * 3}s`;
+            this.backgroundElement.appendChild(symbol);
+        }
+    }
+
+    createLowMist() {
+        const mist = document.createElement('div');
+        mist.className = 'dynamic-element low-mist';
+        this.backgroundElement.appendChild(mist);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // TEMPLE INNER ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createScarletAltar() {
+        const altar = document.createElement('div');
+        altar.className = 'dynamic-element scarlet-altar';
+        altar.innerHTML = '<div class="altar-flame"></div>';
+        this.backgroundElement.appendChild(altar);
+    }
+
+    createIncenseSmoke() {
+        for (let i = 0; i < 5; i++) {
+            const smoke = document.createElement('div');
+            smoke.className = 'dynamic-element incense-smoke';
+            smoke.style.left = `${30 + i * 10}%`;
+            smoke.style.animationDelay = `${Math.random() * 2}s`;
+            this.backgroundElement.appendChild(smoke);
+        }
+    }
+
+    createRitualCandles() {
+        for (let i = 0; i < 8; i++) {
+            const candle = document.createElement('div');
+            candle.className = 'dynamic-element ritual-candle';
+            candle.style.left = `${10 + i * 12}%`;
+            candle.style.bottom = '180px';
+            this.backgroundElement.appendChild(candle);
+        }
+    }
+
+    createMaskPedestal(maskType) {
+        const pedestal = document.createElement('div');
+        pedestal.className = `dynamic-element mask-pedestal ${maskType}`;
+        this.backgroundElement.appendChild(pedestal);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // ARCHIVES ENTRANCE ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createArchiveDoor() {
+        const door = document.createElement('div');
+        door.className = 'dynamic-element archive-door';
+        this.backgroundElement.appendChild(door);
+    }
+
+    createDustParticles() {
+        for (let i = 0; i < 30; i++) {
+            const dust = document.createElement('div');
+            dust.className = 'dynamic-element dust-particle';
+            dust.style.left = `${Math.random() * 100}%`;
+            dust.style.top = `${Math.random() * 100}%`;
+            dust.style.animationDelay = `${Math.random() * 5}s`;
+            this.backgroundElement.appendChild(dust);
+        }
+    }
+
+    createFadedInscriptions() {
+        const texts = ['記憶', '封印', '影', '過去'];
+        texts.forEach((text, i) => {
+            const inscription = document.createElement('div');
+            inscription.className = 'dynamic-element faded-inscription';
+            inscription.textContent = text;
+            inscription.style.left = `${20 + i * 20}%`;
+            inscription.style.top = `${30 + Math.random() * 20}%`;
+            this.backgroundElement.appendChild(inscription);
+        });
+    }
+
+    createDimTorches() {
+        const positions = [100, 300, 950, 1150];
+        positions.forEach(x => {
+            const torch = document.createElement('div');
+            torch.className = 'dynamic-element dim-torch';
+            torch.style.left = `${x}px`;
+            torch.style.top = '150px';
+            this.backgroundElement.appendChild(torch);
+        });
+    }
+
+    createBookShelves() {
+        ['left', 'right'].forEach(side => {
+            const shelf = document.createElement('div');
+            shelf.className = `dynamic-element book-shelf ${side}`;
+            this.backgroundElement.appendChild(shelf);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════
+    // ARCHIVES SECRET ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createHiddenAltar() {
+        const altar = document.createElement('div');
+        altar.className = 'dynamic-element hidden-altar';
+        this.backgroundElement.appendChild(altar);
+    }
+
+    createShadowTendrils() {
+        for (let i = 0; i < 6; i++) {
+            const tendril = document.createElement('div');
+            tendril.className = 'dynamic-element shadow-tendril';
+            tendril.style.left = `${Math.random() * 100}%`;
+            tendril.style.animationDelay = `${Math.random() * 2}s`;
+            this.backgroundElement.appendChild(tendril);
+        }
+    }
+
+    createSealedDoor() {
+        const door = document.createElement('div');
+        door.className = 'dynamic-element sealed-door';
+        this.backgroundElement.appendChild(door);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // ARCHIVES DEPTHS ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createDepthPillars() {
+        const positions = [100, 300, 500, 700, 900, 1100];
+        positions.forEach((x, i) => {
+            const pillar = document.createElement('div');
+            pillar.className = 'dynamic-element depth-pillar';
+            pillar.style.left = `${x}px`;
+            pillar.style.height = `${250 + (i % 2) * 50}px`;
+            this.backgroundElement.appendChild(pillar);
+        });
+    }
+
+    createAncientSeals() {
+        for (let i = 0; i < 4; i++) {
+            const seal = document.createElement('div');
+            seal.className = 'dynamic-element ancient-seal';
+            seal.style.left = `${20 + i * 20}%`;
+            seal.style.top = `${25 + (i % 2) * 10}%`;
+            this.backgroundElement.appendChild(seal);
+        }
+    }
+
+    createGuardianPresence() {
+        const presence = document.createElement('div');
+        presence.className = 'dynamic-element guardian-presence';
+        this.backgroundElement.appendChild(presence);
+    }
+
+    createForbiddenTexts() {
+        for (let i = 0; i < 5; i++) {
+            const text = document.createElement('div');
+            text.className = 'dynamic-element forbidden-text';
+            text.style.left = `${15 + Math.random() * 70}%`;
+            text.style.top = `${20 + Math.random() * 40}%`;
+            text.style.animationDelay = `${Math.random() * 3}s`;
+            this.backgroundElement.appendChild(text);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    // CORE ENTRANCE ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createPortalFrame() {
+        const portal = document.createElement('div');
+        portal.className = 'dynamic-element portal-frame';
+        this.backgroundElement.appendChild(portal);
+    }
+
+    createDataParticles() {
+        for (let i = 0; i < 25; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'dynamic-element data-particle-small';
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 4}s`;
+            this.backgroundElement.appendChild(particle);
+        }
+    }
+
+    createTransitionGrid() {
+        const grid = document.createElement('div');
+        grid.className = 'dynamic-element transition-grid';
+        this.backgroundElement.appendChild(grid);
+    }
+
+    createSystemBoot() {
+        const boot = document.createElement('div');
+        boot.className = 'dynamic-element system-boot';
+        boot.innerHTML = `
+            <div class="boot-line">INITIALIZING...</div>
+            <div class="boot-line">LOADING CORE...</div>
+            <div class="boot-line">ACCESS GRANTED</div>
+        `;
+        this.backgroundElement.appendChild(boot);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // CORE HEART ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createCoreSphere() {
+        const sphere = document.createElement('div');
+        sphere.className = 'dynamic-element core-sphere';
+        this.backgroundElement.appendChild(sphere);
+    }
+
+    createEnergyConduits() {
+        for (let i = 0; i < 6; i++) {
+            const conduit = document.createElement('div');
+            conduit.className = 'dynamic-element energy-conduit';
+            conduit.style.left = `${10 + i * 15}%`;
+            conduit.style.animationDelay = `${i * 0.3}s`;
+            this.backgroundElement.appendChild(conduit);
+        }
+    }
+
+    createTruthTerminal() {
+        const terminal = document.createElement('div');
+        terminal.className = 'dynamic-element truth-terminal';
+        terminal.innerHTML = `
+            <div class="terminal-text">ITERAÇÃO: 7042</div>
+            <div class="terminal-text">CORPOS ANTERIORES: 7041</div>
+            <div class="terminal-text">SOBREVIVENTES: 0</div>
+        `;
+        this.backgroundElement.appendChild(terminal);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // FRAME ZERO GATE ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createOriginGate() {
+        const gate = document.createElement('div');
+        gate.className = 'dynamic-element origin-gate';
+        this.backgroundElement.appendChild(gate);
+    }
+
+    createRealityWisps() {
+        for (let i = 0; i < 12; i++) {
+            const wisp = document.createElement('div');
+            wisp.className = 'dynamic-element reality-wisp';
+            wisp.style.left = `${Math.random() * 100}%`;
+            wisp.style.top = `${Math.random() * 100}%`;
+            wisp.style.animationDelay = `${Math.random() * 4}s`;
+            this.backgroundElement.appendChild(wisp);
+        }
+    }
+
+    createArchitectWhispers() {
+        const whisper = document.createElement('div');
+        whisper.className = 'dynamic-element architect-whispers';
+        this.backgroundElement.appendChild(whisper);
+    }
+
+    createVoidEdge() {
+        const edge = document.createElement('div');
+        edge.className = 'dynamic-element void-edge';
+        this.backgroundElement.appendChild(edge);
     }
 
     // Transição entre cenários

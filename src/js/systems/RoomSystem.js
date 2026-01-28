@@ -11,9 +11,8 @@ export const WORLD_MAP = {
     // CAPÍTULO 1 - Templo
     'temple_entrance': {
         id: 'temple_entrance',
-        name: 'Entrada do Templo',
+        name: 'Portão do Templo',
         chapter: 1,
-        scenario: 'temple_bridge', // Usa cenário temple
         exits: {
             right: 'temple_bridge'
         },
@@ -24,7 +23,6 @@ export const WORLD_MAP = {
         id: 'temple_bridge',
         name: 'Ponte do Templo',
         chapter: 1,
-        scenario: 'temple_bridge',
         exits: {
             left: 'temple_entrance',
             right: 'temple_inner'
@@ -35,9 +33,8 @@ export const WORLD_MAP = {
     },
     'temple_inner': {
         id: 'temple_inner',
-        name: 'Interior do Templo',
+        name: 'Santuário Interior',
         chapter: 1,
-        scenario: 'temple_bridge',
         exits: {
             left: 'temple_bridge',
             down: 'archives_entrance'
@@ -51,7 +48,6 @@ export const WORLD_MAP = {
         id: 'archives_entrance',
         name: 'Entrada dos Arquivos',
         chapter: 2,
-        scenario: 'shadow_archives',
         exits: {
             up: 'temple_inner',
             right: 'archives_hall'
@@ -61,9 +57,8 @@ export const WORLD_MAP = {
     },
     'archives_hall': {
         id: 'archives_hall',
-        name: 'Corredor dos Arquivos',
+        name: 'Corredor Principal',
         chapter: 2,
-        scenario: 'shadow_archives',
         exits: {
             left: 'archives_entrance',
             right: 'archives_depths',
@@ -74,9 +69,8 @@ export const WORLD_MAP = {
     },
     'archives_secret': {
         id: 'archives_secret',
-        name: 'Câmara Secreta',
+        name: 'Câmara Oculta',
         chapter: 2,
-        scenario: 'shadow_archives',
         exits: {
             up: 'archives_hall'
         },
@@ -86,9 +80,8 @@ export const WORLD_MAP = {
     },
     'archives_depths': {
         id: 'archives_depths',
-        name: 'Profundezas dos Arquivos',
+        name: 'Profundezas Proibidas',
         chapter: 2,
-        scenario: 'shadow_archives',
         exits: {
             left: 'archives_hall',
             down: 'core_entrance'
@@ -101,9 +94,8 @@ export const WORLD_MAP = {
     // CAPÍTULO 3 - Núcleo
     'core_entrance': {
         id: 'core_entrance',
-        name: 'Portal do Núcleo',
+        name: 'Portal Digital',
         chapter: 3,
-        scenario: 'core_system',
         exits: {
             up: 'archives_depths',
             right: 'core_mainframe'
@@ -115,7 +107,6 @@ export const WORLD_MAP = {
         id: 'core_mainframe',
         name: 'Mainframe Central',
         chapter: 3,
-        scenario: 'core_system',
         exits: {
             left: 'core_entrance',
             right: 'core_heart'
@@ -127,7 +118,6 @@ export const WORLD_MAP = {
         id: 'core_heart',
         name: 'Coração do Sistema',
         chapter: 3,
-        scenario: 'core_system',
         exits: {
             left: 'core_mainframe',
             down: 'frame_zero_gate'
@@ -140,9 +130,8 @@ export const WORLD_MAP = {
     // CAPÍTULO 4 - Frame Zero
     'frame_zero_gate': {
         id: 'frame_zero_gate',
-        name: 'Portão do Frame Zero',
+        name: 'Portão da Origem',
         chapter: 4,
-        scenario: 'frame_zero',
         exits: {
             up: 'core_heart',
             right: 'frame_zero_origin'
@@ -152,9 +141,8 @@ export const WORLD_MAP = {
     },
     'frame_zero_origin': {
         id: 'frame_zero_origin',
-        name: 'Ponto de Origem',
+        name: 'Frame Zero',
         chapter: 4,
-        scenario: 'frame_zero',
         exits: {
             left: 'frame_zero_gate'
         },
@@ -189,10 +177,8 @@ class RoomSystem {
 
         console.log(`🚪 Entrando em: ${room.name}`);
 
-        // Carregar cenário correspondente
-        if (room.scenario) {
-            scenarioSystem.loadScenario(room.scenario);
-        }
+        // Carregar cenário correspondente (usa o ID da sala como cenário)
+        scenarioSystem.loadScenario(roomId);
 
         // Atualizar UI
         this.updateRoomUI(room);
