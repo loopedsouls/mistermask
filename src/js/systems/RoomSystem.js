@@ -3,6 +3,7 @@ import gameState from '../managers/GameState.js';
 import screenManager from '../managers/ScreenManager.js';
 import uiManager from '../managers/UIManager.js';
 import eventBus from '../managers/EventBus.js';
+import scenarioSystem from './ScenarioSystem.js';
 import { GAME_WIDTH, GAME_HEIGHT } from '../config/constants.js';
 
 // Mapa do mundo - cada sala conecta com outras
@@ -12,7 +13,7 @@ export const WORLD_MAP = {
         id: 'temple_entrance',
         name: 'Entrada do Templo',
         chapter: 1,
-        background: 'temple',
+        scenario: 'temple_bridge', // Usa cenário temple
         exits: {
             right: 'temple_bridge'
         },
@@ -23,7 +24,7 @@ export const WORLD_MAP = {
         id: 'temple_bridge',
         name: 'Ponte do Templo',
         chapter: 1,
-        background: 'temple',
+        scenario: 'temple_bridge',
         exits: {
             left: 'temple_entrance',
             right: 'temple_inner'
@@ -36,7 +37,7 @@ export const WORLD_MAP = {
         id: 'temple_inner',
         name: 'Interior do Templo',
         chapter: 1,
-        background: 'temple',
+        scenario: 'temple_bridge',
         exits: {
             left: 'temple_bridge',
             down: 'archives_entrance'
@@ -50,7 +51,7 @@ export const WORLD_MAP = {
         id: 'archives_entrance',
         name: 'Entrada dos Arquivos',
         chapter: 2,
-        background: 'archives',
+        scenario: 'shadow_archives',
         exits: {
             up: 'temple_inner',
             right: 'archives_hall'
@@ -62,7 +63,7 @@ export const WORLD_MAP = {
         id: 'archives_hall',
         name: 'Corredor dos Arquivos',
         chapter: 2,
-        background: 'archives',
+        scenario: 'shadow_archives',
         exits: {
             left: 'archives_entrance',
             right: 'archives_depths',
@@ -75,7 +76,7 @@ export const WORLD_MAP = {
         id: 'archives_secret',
         name: 'Câmara Secreta',
         chapter: 2,
-        background: 'archives',
+        scenario: 'shadow_archives',
         exits: {
             up: 'archives_hall'
         },
@@ -87,7 +88,7 @@ export const WORLD_MAP = {
         id: 'archives_depths',
         name: 'Profundezas dos Arquivos',
         chapter: 2,
-        background: 'archives',
+        scenario: 'shadow_archives',
         exits: {
             left: 'archives_hall',
             down: 'core_entrance'
@@ -102,7 +103,7 @@ export const WORLD_MAP = {
         id: 'core_entrance',
         name: 'Portal do Núcleo',
         chapter: 3,
-        background: 'digital',
+        scenario: 'core_system',
         exits: {
             up: 'archives_depths',
             right: 'core_mainframe'
@@ -114,7 +115,7 @@ export const WORLD_MAP = {
         id: 'core_mainframe',
         name: 'Mainframe Central',
         chapter: 3,
-        background: 'digital',
+        scenario: 'core_system',
         exits: {
             left: 'core_entrance',
             right: 'core_heart'
@@ -126,7 +127,7 @@ export const WORLD_MAP = {
         id: 'core_heart',
         name: 'Coração do Sistema',
         chapter: 3,
-        background: 'digital',
+        scenario: 'core_system',
         exits: {
             left: 'core_mainframe',
             down: 'frame_zero_gate'
@@ -141,7 +142,7 @@ export const WORLD_MAP = {
         id: 'frame_zero_gate',
         name: 'Portão do Frame Zero',
         chapter: 4,
-        background: 'origin',
+        scenario: 'frame_zero',
         exits: {
             up: 'core_heart',
             right: 'frame_zero_origin'
@@ -153,7 +154,7 @@ export const WORLD_MAP = {
         id: 'frame_zero_origin',
         name: 'Ponto de Origem',
         chapter: 4,
-        background: 'origin',
+        scenario: 'frame_zero',
         exits: {
             left: 'frame_zero_gate'
         },
@@ -187,6 +188,11 @@ class RoomSystem {
         this.visitedRooms.add(roomId);
 
         console.log(`🚪 Entrando em: ${room.name}`);
+
+        // Carregar cenário correspondente
+        if (room.scenario) {
+            scenarioSystem.loadScenario(room.scenario);
+        }
 
         // Atualizar UI
         this.updateRoomUI(room);

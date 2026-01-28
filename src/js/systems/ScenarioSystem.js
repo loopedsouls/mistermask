@@ -37,100 +37,329 @@ class ScenarioSystem {
         this.backgroundElement.className = `scenario-${scenario.id}`;
 
         // Gerar elementos do cenário
-        this.generateElements(scenario.elements);
+        this.generateElements(scenario.elements, scenario.id);
     }
 
-    generateElements(elements) {
+    generateElements(elements, scenarioId) {
         // Limpar elementos anteriores
         const dynamicElements = this.backgroundElement.querySelectorAll('.dynamic-element');
         dynamicElements.forEach(el => el.remove());
 
         // Criar novos elementos baseado no cenário
         elements.forEach(elementType => {
-            this.createElement(elementType);
+            this.createElement(elementType, scenarioId);
         });
     }
 
-    createElement(type) {
-        const element = document.createElement('div');
-        element.className = `dynamic-element scenario-element ${type}`;
-        
+    createElement(type, scenarioId) {
         switch(type) {
+            // VOID (Prólogo)
             case 'floating_data':
-                this.createFloatingData(element);
+                this.createFloatingData();
                 break;
             case 'glitch_particles':
-                this.createGlitchParticles(element);
+                this.createGlitchParticles();
                 break;
+            case 'distant_frames':
+                this.createDistantFrames();
+                break;
+
+            // TEMPLE (Cap 1)
             case 'oni_statues':
-                // Já existe no HTML base
+                this.createOniStatues();
                 break;
+            case 'stone_bridge':
+                this.createStoneBridge();
+                break;
+            case 'purple_sky':
+                // Handled by CSS
+                break;
+            case 'distant_temple':
+                this.createDistantTemple();
+                break;
+
+            // ARCHIVES (Cap 2)
             case 'floating_scrolls':
-                this.createFloatingScrolls(element);
+                this.createFloatingScrolls();
                 break;
+            case 'shadow_pillars':
+                this.createShadowPillars();
+                break;
+            case 'memory_orbs':
+                this.createMemoryOrbs();
+                break;
+            case 'hidden_passages':
+                // Visual hint only
+                break;
+
+            // DIGITAL (Cap 3)
             case 'data_streams':
-                this.createDataStreams(element);
+                this.createDataStreams();
                 break;
+            case 'holographic_displays':
+                this.createHoloDisplays();
+                break;
+            case 'iteration_counter':
+                this.createIterationCounter();
+                break;
+            case 'system_alerts':
+                this.createSystemAlerts();
+                break;
+
+            // FRAME ZERO (Cap 4)
             case 'reality_cracks':
-                this.createRealityCracks(element);
+                this.createRealityCracks();
                 break;
-            default:
-                element.classList.add(type);
-        }
+            case 'all_masks_floating':
+                this.createFloatingMasks();
+                break;
+            case 'the_architects':
+                this.createArchitects();
+                break;
+            case 'reset_button':
+                this.createResetButton();
+                break;
 
-        this.backgroundElement.appendChild(element);
+            // NEW DAWN (Epílogo)
+            case 'sunrise':
+                // Handled by CSS
+                break;
+            case 'broken_masks':
+                this.createBrokenMasks();
+                break;
+            case 'peaceful_world':
+                this.createPeacefulWorld();
+                break;
+        }
     }
 
-    createFloatingData(container) {
-        for (let i = 0; i < 20; i++) {
+    // ═══════════════════════════════════════════════════
+    // VOID ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createFloatingData() {
+        for (let i = 0; i < 30; i++) {
             const particle = document.createElement('div');
-            particle.className = 'data-particle';
+            particle.className = 'dynamic-element data-particle';
             particle.style.left = `${Math.random() * 100}%`;
-            particle.style.animationDelay = `${Math.random() * 5}s`;
-            particle.style.animationDuration = `${3 + Math.random() * 4}s`;
-            container.appendChild(particle);
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 8}s`;
+            particle.style.animationDuration = `${6 + Math.random() * 4}s`;
+            this.backgroundElement.appendChild(particle);
         }
     }
 
-    createGlitchParticles(container) {
-        for (let i = 0; i < 10; i++) {
+    createGlitchParticles() {
+        for (let i = 0; i < 15; i++) {
             const glitch = document.createElement('div');
-            glitch.className = 'glitch-particle';
+            glitch.className = 'dynamic-element glitch-particle';
             glitch.style.left = `${Math.random() * 100}%`;
             glitch.style.top = `${Math.random() * 100}%`;
-            glitch.style.animationDelay = `${Math.random() * 2}s`;
-            container.appendChild(glitch);
+            glitch.style.animationDelay = `${Math.random() * 3}s`;
+            this.backgroundElement.appendChild(glitch);
         }
     }
 
-    createFloatingScrolls(container) {
+    createDistantFrames() {
         for (let i = 0; i < 8; i++) {
-            const scroll = document.createElement('div');
-            scroll.className = 'floating-scroll';
-            scroll.style.left = `${10 + Math.random() * 80}%`;
-            scroll.style.animationDelay = `${Math.random() * 3}s`;
-            container.appendChild(scroll);
+            const frame = document.createElement('div');
+            frame.className = 'dynamic-element distant-frame';
+            frame.style.left = `${10 + Math.random() * 80}%`;
+            frame.style.top = `${10 + Math.random() * 60}%`;
+            frame.style.animationDelay = `${Math.random() * 15}s`;
+            frame.style.opacity = 0.1 + Math.random() * 0.3;
+            this.backgroundElement.appendChild(frame);
         }
     }
 
-    createDataStreams(container) {
-        for (let i = 0; i < 5; i++) {
-            const stream = document.createElement('div');
-            stream.className = 'data-stream';
-            stream.style.left = `${i * 20 + 10}%`;
-            stream.style.animationDelay = `${i * 0.5}s`;
-            container.appendChild(stream);
-        }
+    // ═══════════════════════════════════════════════════
+    // TEMPLE ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createOniStatues() {
+        ['left', 'right'].forEach(side => {
+            const statue = document.createElement('div');
+            statue.className = `dynamic-element oni-statue ${side}`;
+            this.backgroundElement.appendChild(statue);
+        });
     }
 
-    createRealityCracks(container) {
+    createStoneBridge() {
+        const bridge = document.createElement('div');
+        bridge.className = 'dynamic-element temple-bridge-structure';
+        this.backgroundElement.appendChild(bridge);
+
+        // Névoa do abismo
+        const fog = document.createElement('div');
+        fog.className = 'dynamic-element abyss-fog';
+        this.backgroundElement.appendChild(fog);
+    }
+
+    createDistantTemple() {
+        // Lanternas flutuantes
         for (let i = 0; i < 6; i++) {
+            const lantern = document.createElement('div');
+            lantern.className = 'dynamic-element floating-lantern';
+            lantern.style.left = `${15 + Math.random() * 70}%`;
+            lantern.style.top = `${10 + Math.random() * 40}%`;
+            lantern.style.animationDelay = `${Math.random() * 6}s`;
+            lantern.style.opacity = 0.4 + Math.random() * 0.4;
+            this.backgroundElement.appendChild(lantern);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    // ARCHIVES ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createFloatingScrolls() {
+        for (let i = 0; i < 10; i++) {
+            const scroll = document.createElement('div');
+            scroll.className = 'dynamic-element floating-scroll';
+            scroll.style.left = `${15 + Math.random() * 70}%`;
+            scroll.style.top = `${20 + Math.random() * 50}%`;
+            scroll.style.animationDelay = `${Math.random() * 5}s`;
+            this.backgroundElement.appendChild(scroll);
+        }
+    }
+
+    createShadowPillars() {
+        const positions = [80, 200, 1000, 1120];
+        positions.forEach((x, i) => {
+            const pillar = document.createElement('div');
+            pillar.className = 'dynamic-element shadow-pillar';
+            pillar.style.left = `${x}px`;
+            pillar.style.height = `${200 + Math.random() * 100}px`;
+            this.backgroundElement.appendChild(pillar);
+        });
+    }
+
+    createMemoryOrbs() {
+        for (let i = 0; i < 8; i++) {
+            const orb = document.createElement('div');
+            orb.className = 'dynamic-element memory-orb';
+            orb.style.left = `${10 + Math.random() * 80}%`;
+            orb.style.top = `${15 + Math.random() * 50}%`;
+            orb.style.animationDelay = `${Math.random() * 3}s`;
+            this.backgroundElement.appendChild(orb);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    // DIGITAL/CORE ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createDataStreams() {
+        for (let i = 0; i < 12; i++) {
+            const stream = document.createElement('div');
+            stream.className = 'dynamic-element data-stream';
+            stream.style.left = `${5 + i * 8}%`;
+            stream.style.animationDelay = `${Math.random() * 2}s`;
+            stream.style.opacity = 0.3 + Math.random() * 0.4;
+            this.backgroundElement.appendChild(stream);
+        }
+    }
+
+    createHoloDisplays() {
+        const positions = [
+            { x: 50, y: 80 },
+            { x: 1080, y: 120 },
+            { x: 150, y: 350 },
+            { x: 980, y: 380 }
+        ];
+        positions.forEach(pos => {
+            const display = document.createElement('div');
+            display.className = 'dynamic-element holo-display';
+            display.style.left = `${pos.x}px`;
+            display.style.top = `${pos.y}px`;
+            this.backgroundElement.appendChild(display);
+        });
+    }
+
+    createIterationCounter() {
+        const counter = document.createElement('div');
+        counter.className = 'dynamic-element iteration-counter';
+        this.backgroundElement.appendChild(counter);
+    }
+
+    createSystemAlerts() {
+        const alerts = [
+            { text: '⚠ ANOMALY DETECTED', x: 100, y: 50 },
+            { text: '⚠ MASK SYNC: 47%', x: 1050, y: 60 }
+        ];
+        alerts.forEach(alert => {
+            const el = document.createElement('div');
+            el.className = 'dynamic-element system-alert';
+            el.textContent = alert.text;
+            el.style.left = `${alert.x}px`;
+            el.style.top = `${alert.y}px`;
+            this.backgroundElement.appendChild(el);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════
+    // FRAME ZERO ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createRealityCracks() {
+        for (let i = 0; i < 8; i++) {
             const crack = document.createElement('div');
-            crack.className = 'reality-crack';
+            crack.className = 'dynamic-element reality-crack';
             crack.style.left = `${Math.random() * 100}%`;
             crack.style.top = `${Math.random() * 100}%`;
-            crack.style.transform = `rotate(${Math.random() * 360}deg)`;
-            container.appendChild(crack);
+            crack.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
+            crack.style.animationDelay = `${Math.random() * 4}s`;
+            this.backgroundElement.appendChild(crack);
+        }
+    }
+
+    createFloatingMasks() {
+        const masks = ['scarlet', 'veil', 'oracle', 'forbidden'];
+        masks.forEach((mask, i) => {
+            const el = document.createElement('div');
+            el.className = `dynamic-element floating-mask ${mask}`;
+            el.style.left = '50%';
+            el.style.top = '50%';
+            el.style.animationDelay = `${-i * 2.5}s`;
+            this.backgroundElement.appendChild(el);
+        });
+    }
+
+    createArchitects() {
+        const positions = [200, 500, 800, 1000];
+        positions.forEach((x, i) => {
+            const architect = document.createElement('div');
+            architect.className = 'dynamic-element architect-silhouette';
+            architect.style.left = `${x}px`;
+            architect.style.bottom = '100px';
+            architect.style.animationDelay = `${i * 0.5}s`;
+            this.backgroundElement.appendChild(architect);
+        });
+    }
+
+    createResetButton() {
+        const btn = document.createElement('div');
+        btn.className = 'dynamic-element reset-button-visual';
+        this.backgroundElement.appendChild(btn);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // NEW DAWN ELEMENTS
+    // ═══════════════════════════════════════════════════
+    createBrokenMasks() {
+        for (let i = 0; i < 6; i++) {
+            const fragment = document.createElement('div');
+            fragment.className = 'dynamic-element broken-mask-fragment';
+            fragment.style.left = `${10 + Math.random() * 80}%`;
+            fragment.style.bottom = `${5 + Math.random() * 20}%`;
+            fragment.style.transform = `rotate(${Math.random() * 360}deg)`;
+            this.backgroundElement.appendChild(fragment);
+        }
+    }
+
+    createPeacefulWorld() {
+        // Pássaros
+        for (let i = 0; i < 4; i++) {
+            const bird = document.createElement('div');
+            bird.className = 'dynamic-element distant-bird';
+            bird.style.top = `${10 + Math.random() * 30}%`;
+            bird.style.animationDelay = `${i * 2}s`;
+            this.backgroundElement.appendChild(bird);
         }
     }
 
