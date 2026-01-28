@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mister Mask</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Cenário de fundo -->
+        <div id="background">
+            <div class="tree tree-1"></div>
+            <div class="tree tree-2"></div>
+            <div class="tree tree-3"></div>
+            <div class="mushroom mushroom-large"></div>
+            <div class="mushroom mushroom-medium"></div>
+            <div class="mushroom mushroom-small-1"></div>
+            <div class="mushroom mushroom-small-2"></div>
+            <div class="mushroom mushroom-small-3"></div>
+            <div class="ground"></div>
+            <div class="grass"></div>
+        </div>
+
+        <!-- UI do Jogo -->
+        <div id="game-ui">
+            <!-- Painel de Status -->
+            <div id="status-panel">
+                <div class="health-row">
+                    <div class="heart-icon">❤️</div>
+                    <span id="health-value" class="stat-value">410</span>
+                    <div class="companion-heart">💚</div>
+                    <span id="companion-health" class="stat-value small">♪♫♪</span>
+                </div>
+                <div class="mana-bar">
+                    <div class="mana-fill" id="mana-bar"></div>
+                    <span class="mana-text">360</span>
+                </div>
+                <div class="level-row">
+                    <span class="level-text">Lv. <span id="level">50</span></span>
+                    <span class="gold-text"><span id="gold">1600</span>$</span>
+                </div>
+                <!-- Inventory Slots -->
+                <div id="inventory-slots">
+                    <div class="slot" data-slot="1">
+                        <div class="slot-item sword-icon"></div>
+                    </div>
+                    <div class="slot" data-slot="2">
+                        <div class="slot-item potion-icon"></div>
+                        <span class="slot-count">51</span>
+                    </div>
+                    <div class="slot" data-slot="3">
+                        <div class="slot-item magic-icon"></div>
+                    </div>
+                    <div class="slot" data-slot="4">
+                        <div class="slot-item shield-icon"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personagem Principal -->
+        <div id="player">
+            <div class="player-mask"></div>
+            <div class="player-horn-left"></div>
+            <div class="player-horn-right"></div>
+            <div class="player-cloak"></div>
+            <div class="player-dress"></div>
+            <div class="player-legs"></div>
+            <div class="player-sword"></div>
+        </div>
+
+        <!-- Pintinhos -->
+        <div id="chicks-container"></div>
+
+        <!-- Flores e decorações -->
+        <div id="decorations">
+            <div class="flower flower-1">✿</div>
+            <div class="flower flower-2">❀</div>
+            <div class="flower flower-3">✿</div>
+            <div class="sparkle sparkle-1">✦</div>
+            <div class="sparkle sparkle-2">✧</div>
+            <div class="sparkle sparkle-3">✦</div>
+        </div>
+    </div>
+
+    <script src="src/js/game.js"></script>
+</body>
+</html>
