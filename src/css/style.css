@@ -1788,3 +1788,328 @@ body {
         /* Handled by JavaScript for precise scaling */
     }
 }
+/* ============ CENÁRIOS DINÂMICOS ============ */
+
+/* Variáveis de cenário */
+#background {
+    --sky-color: #1a0a2e;
+    --ground-color: #2d1b4e;
+    --accent-color: #cc2222;
+}
+
+/* CENÁRIO: VOID (Prólogo) */
+.scenario-void {
+    background: radial-gradient(ellipse at center, #0a0a1a 0%, #000000 100%);
+}
+
+.scenario-void .data-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #44ffff;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float-particle 5s ease-in-out infinite;
+}
+
+.scenario-void .glitch-particle {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: #ff0044;
+    animation: glitch-flicker 0.5s steps(2) infinite;
+}
+
+@keyframes float-particle {
+    0%, 100% { transform: translateY(0); opacity: 0.3; }
+    50% { transform: translateY(-100px); opacity: 0.8; }
+}
+
+@keyframes glitch-flicker {
+    0%, 100% { opacity: 1; transform: translateX(0); }
+    50% { opacity: 0; transform: translateX(10px); }
+}
+
+/* CENÁRIO: TEMPLE BRIDGE (Cap 1) */
+.scenario-temple_bridge {
+    background: linear-gradient(180deg, #1a0a2e 0%, #2d1b4e 60%, #1a0a1a 100%);
+}
+
+.scenario-temple_bridge .oni-statue {
+    filter: drop-shadow(0 0 20px var(--accent-color));
+}
+
+/* CENÁRIO: SHADOW ARCHIVES (Cap 2) */
+.scenario-shadow_archives {
+    background: linear-gradient(180deg, #0a1628 0%, #1a2a4a 50%, #0a1020 100%);
+}
+
+.scenario-shadow_archives .floating-scroll {
+    position: absolute;
+    width: 30px;
+    height: 50px;
+    background: linear-gradient(90deg, #d4b060 0%, #a08040 100%);
+    border-radius: 3px;
+    opacity: 0.7;
+    animation: float-scroll 4s ease-in-out infinite;
+}
+
+.scenario-shadow_archives .floating-scroll::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: repeating-linear-gradient(
+        transparent 0px,
+        transparent 3px,
+        #333 3px,
+        #333 4px
+    );
+    opacity: 0.5;
+}
+
+@keyframes float-scroll {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-30px) rotate(5deg); }
+}
+
+/* CENÁRIO: CORE SYSTEM (Cap 3) */
+.scenario-core_system {
+    background: radial-gradient(ellipse at center, #2a2a1a 0%, #1a1a0a 50%, #0a0a00 100%);
+}
+
+.scenario-core_system .data-stream {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        var(--accent-color) 20%, 
+        var(--accent-color) 80%, 
+        transparent 100%
+    );
+    opacity: 0.5;
+    animation: data-flow 2s linear infinite;
+}
+
+@keyframes data-flow {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+.scenario-core_system::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 2px,
+            rgba(204, 170, 34, 0.03) 2px,
+            rgba(204, 170, 34, 0.03) 4px
+        );
+    pointer-events: none;
+}
+
+/* CENÁRIO: FRAME ZERO (Cap 4) */
+.scenario-frame_zero {
+    background: radial-gradient(ellipse at center, #1a001a 0%, #0a000a 100%);
+}
+
+.scenario-frame_zero .reality-crack {
+    position: absolute;
+    width: 3px;
+    height: 80px;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        #ff00ff 30%, 
+        #ffffff 50%, 
+        #ff00ff 70%, 
+        transparent 100%
+    );
+    opacity: 0.8;
+    animation: crack-pulse 2s ease-in-out infinite;
+}
+
+@keyframes crack-pulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+.scenario-frame_zero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 30%, rgba(102, 0, 102, 0.3) 100%);
+    animation: void-pulse 4s ease-in-out infinite;
+}
+
+@keyframes void-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* CENÁRIO: NEW DAWN (Epílogo) */
+.scenario-new_dawn {
+    background: linear-gradient(180deg, #ff7744 0%, #ffaa66 40%, #ffffff 100%);
+}
+
+.scenario-new_dawn::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.8) 100%);
+}
+
+/* ============ ELEMENTOS DE NARRATIVA ============ */
+
+/* Texto de narração */
+.dialogue-name.narration {
+    color: #888;
+    font-style: italic;
+}
+
+/* Todas as máscaras falando juntas */
+.dialogue-name.allmasks {
+    background: linear-gradient(90deg, #cc2222, #2244aa, #ccaa22, #660066);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow-shift 2s linear infinite;
+}
+
+@keyframes rainbow-shift {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* Inimigo */
+.dialogue-name.enemy {
+    color: #ff0044;
+    text-shadow: 0 0 10px #ff0044;
+    animation: enemy-glitch 0.3s steps(2) infinite;
+}
+
+@keyframes enemy-glitch {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(2px); }
+}
+
+/* ============ TELA DE ESCOLHA FINAL ============ */
+
+.choice-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    z-index: 600;
+}
+
+.choice-title {
+    font-size: 32px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+}
+
+.choice-options {
+    display: flex;
+    gap: 60px;
+}
+
+.choice-option {
+    width: 200px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.choice-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.choice-option.reset {
+    border-color: #cc2222;
+}
+.choice-option.reset:hover {
+    background: rgba(204, 34, 34, 0.2);
+    box-shadow: 0 0 30px rgba(204, 34, 34, 0.5);
+}
+
+.choice-option.transcend {
+    border-color: #44ffaa;
+}
+.choice-option.transcend:hover {
+    background: rgba(68, 255, 170, 0.2);
+    box-shadow: 0 0 30px rgba(68, 255, 170, 0.5);
+}
+
+.choice-option.seal {
+    border-color: #660066;
+}
+.choice-option.seal:hover {
+    background: rgba(102, 0, 102, 0.2);
+    box-shadow: 0 0 30px rgba(102, 0, 102, 0.5);
+}
+
+.choice-label {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.choice-description {
+    font-size: 14px;
+    color: #888;
+}
+
+/* ============ TELA DE FIM ============ */
+
+.ending-screen {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 700;
+    animation: fade-in 2s ease-out;
+}
+
+.ending-title {
+    font-size: 48px;
+    color: #fff;
+    margin-bottom: 20px;
+    animation: ending-glow 3s ease-in-out infinite;
+}
+
+.ending-subtitle {
+    font-size: 24px;
+    color: #888;
+    letter-spacing: 5px;
+}
+
+@keyframes ending-glow {
+    0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+    50% { text-shadow: 0 0 40px rgba(255,255,255,0.6); }
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}

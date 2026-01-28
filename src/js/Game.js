@@ -15,6 +15,8 @@ import eventBus, { EVENTS } from './managers/EventBus.js';
 import henshinSystem from './systems/HenshinSystem.js';
 import progressionSystem from './systems/ProgressionSystem.js';
 import combatSystem from './systems/CombatSystem.js';
+import narrativeSystem from './systems/NarrativeSystem.js';
+import scenarioSystem from './systems/ScenarioSystem.js';
 
 // UI Controllers
 import menuController from './ui/MenuController.js';
@@ -22,6 +24,7 @@ import chapterController from './ui/ChapterController.js';
 
 // Data
 import { LORE_ENTRIES } from './data/lore.js';
+import { STORY } from './data/story.js';
 
 class Game {
     constructor() {
@@ -42,6 +45,8 @@ class Game {
         henshinSystem.init();
         progressionSystem.init();
         combatSystem.init();
+        narrativeSystem.init();
+        scenarioSystem.init();
         
         // Inicializar controllers
         menuController.init((players) => this.startGame(players));
@@ -179,8 +184,43 @@ class Game {
     startGame(players) {
         console.log(`🎮 Iniciando jogo com ${players} jogador(es)`);
         
-        chapterController.showSplash(gameState.currentChapter, () => {
-            chapterController.startChapter(gameState.currentChapter);
+        // Verificar se é a primeira vez (mostrar prólogo)
+        const isFirstTime = gameState.currentChapter === 1 && !progressionSystem.hasSave();
+        
+        if (isFirstTime) {
+            // Mostrar prólogo primeiro
+            this.startPrologue();
+        } else {
+            // Ir direto para o capítulo atual
+            this.startChapter(gameState.currentChapter);
+        }
+    }
+
+    startPrologue() {
+        console.log('📖 Iniciando Prólogo...');
+        
+        // Carregar cenário do void
+        scenarioSystem.loadScenario('void');
+        screenManager.show('game');
+        
+        narrativeSystem.startPrologue((nextChapter) => {
+            // Após prólogo, iniciar capítulo 1
+            this.startChapter(nextChapter);
+        });
+    }
+
+    startChapter(chapterId) {
+        chapterController.showSplash(chapterId, () => {
+            // Carregar cenário do capítulo
+            const chapter = STORY[`chapter${chapterId}`];
+            if (chapter?.scenario) {
+                scenarioSystem.loadScenario(chapter.scenario);
+            }
+            
+            // Iniciar narrativa do capítulo
+            narrativeSystem.startChapter(chapterId);
+            
+            screenManager.show('game');
             uiManager.updateBars();
             this.startGameLoop();
         });
