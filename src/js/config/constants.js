@@ -56,15 +56,19 @@ export const MASK_INFO = {
 };
 
 export const KEYS = {
+    // Movimento
     UP: ['w', 'arrowup'],
     DOWN: ['s', 'arrowdown'],
     LEFT: ['a', 'arrowleft'],
     RIGHT: ['d', 'arrowright'],
-    JUMP: ['w', 'arrowup'],
-    ATTACK: [' '],
-    HENSHIN: ['h', 'q'],
-    CONFIRM: ['enter'],
-    CANCEL: ['escape'],
+    
+    // Ações (estilo Undertale)
+    CONFIRM: ['z', 'enter'],      // Z = confirmar/atacar
+    CANCEL: ['x', 'escape'],       // X = cancelar/voltar
+    MENU: ['c'],                   // C = menu/habilidade
+    
+    // Atalhos
+    HENSHIN: ['c', 'q'],           // C ou Q = transformar
     MASK_1: ['1'],
     MASK_2: ['2'],
     MASK_3: ['3'],

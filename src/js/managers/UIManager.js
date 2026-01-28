@@ -1,6 +1,8 @@
 // ============ GERENCIADOR DE UI ============
+import { GAME_HEIGHT } from '../config/constants.js';
 import gameState from './GameState.js';
 import screenManager from './ScreenManager.js';
+import eventBus from './EventBus.js';
 
 class UIManager {
     constructor() {
@@ -78,6 +80,15 @@ class UIManager {
         }
     }
 
+    updatePlayerPositionY() {
+        const { y } = gameState.player;
+        const player = this.elements.player;
+        
+        if (player) {
+            player.style.bottom = `${GAME_HEIGHT - y - 150}px`;
+        }
+    }
+
     updatePlayerMask(maskType, colors) {
         if (this.elements.playerMask && colors) {
             this.elements.playerMask.style.background = 
@@ -91,6 +102,23 @@ class UIManager {
 
     setPlayerAttacking(attacking) {
         this.elements.player?.classList.toggle('attacking', attacking);
+    }
+
+    showRoomName(name) {
+        let roomLabel = document.getElementById('room-name');
+        if (!roomLabel) {
+            roomLabel = document.createElement('div');
+            roomLabel.id = 'room-name';
+            roomLabel.className = 'room-name';
+            document.getElementById('game-screen')?.appendChild(roomLabel);
+        }
+        
+        roomLabel.textContent = name;
+        roomLabel.classList.add('show');
+        
+        setTimeout(() => {
+            roomLabel.classList.remove('show');
+        }, 2000);
     }
 
     showPauseMenu() {

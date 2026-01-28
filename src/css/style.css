@@ -2113,3 +2113,121 @@ body {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
+
+/* ============ SISTEMA DE SALAS (METROIDVANIA) ============ */
+
+/* Nome da sala */
+.room-name {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #d4b060;
+    padding: 10px 30px;
+    font-size: 18px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 1px solid #d4b06044;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 100;
+}
+
+.room-name.show {
+    opacity: 1;
+}
+
+/* Indicadores de saída */
+.exit-indicator {
+    position: absolute;
+    font-size: 32px;
+    color: #d4b060;
+    opacity: 0.5;
+    animation: exit-pulse 1.5s ease-in-out infinite;
+    z-index: 50;
+    text-shadow: 0 0 10px #d4b060;
+}
+
+.exit-indicator:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.exit-left {
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.exit-right {
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.exit-up {
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.exit-down {
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes exit-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+/* Mini-mapa (opcional) */
+.minimap {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 150px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4b06044;
+    z-index: 100;
+}
+
+.minimap-room {
+    position: absolute;
+    width: 20px;
+    height: 15px;
+    background: #333;
+    border: 1px solid #555;
+}
+
+.minimap-room.current {
+    background: #d4b060;
+}
+
+.minimap-room.visited {
+    background: #666;
+}
+
+.minimap-connection {
+    position: absolute;
+    background: #444;
+}
+
+/* Progresso da exploração */
+.exploration-progress {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 15px;
+    font-size: 12px;
+    color: #888;
+    z-index: 100;
+}
+
+.exploration-progress span {
+    color: #d4b060;
+}

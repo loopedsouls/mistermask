@@ -46,6 +46,12 @@ class GameState {
         this.isPaused = false;
     }
 
+    // Pause
+    togglePause() {
+        this.isPaused = !this.isPaused;
+        return this.isPaused;
+    }
+
     // Screen
     setScreen(screen) {
         this.currentScreen = screen;

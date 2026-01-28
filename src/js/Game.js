@@ -17,6 +17,7 @@ import progressionSystem from './systems/ProgressionSystem.js';
 import combatSystem from './systems/CombatSystem.js';
 import narrativeSystem from './systems/NarrativeSystem.js';
 import scenarioSystem from './systems/ScenarioSystem.js';
+import { roomSystem } from './systems/RoomSystem.js';
 
 // UI Controllers
 import menuController from './ui/MenuController.js';
@@ -47,6 +48,7 @@ class Game {
         combatSystem.init();
         narrativeSystem.init();
         scenarioSystem.init();
+        roomSystem.init();
         
         // Inicializar controllers
         menuController.init((players) => this.startGame(players));
@@ -122,17 +124,17 @@ class Game {
     }
 
     handleGameInput(key, event) {
-        // Diálogo ativo
+        // Diálogo ativo - Z avança, X pula
         if (dialogueManager.isActive()) {
-            if (key === 'enter') {
+            if (key === 'z' || key === 'enter') {
                 dialogueManager.next();
-            } else if (key === 'escape') {
+            } else if (key === 'x' || key === 'escape') {
                 dialogueManager.end();
             }
             return;
         }
         
-        // Pause
+        // Pause com Escape
         if (key === 'escape') {
             this.togglePause();
             return;
@@ -141,22 +143,23 @@ class Game {
         // Se pausado, ignorar outros inputs
         if (gameState.isPaused) return;
         
-        // Controles de jogo
-        if (key === ' ') {
+        // Z = Atacar
+        if (key === 'z') {
             event.preventDefault();
             combatSystem.attack();
         }
         
-        if (key === 'w' || key === 'arrowup') {
+        // X = Pular
+        if (key === 'x') {
             combatSystem.jump();
         }
         
-        // Henshin
-        if (key === 'h' || key === 'q') {
+        // C = Henshin (transformar)
+        if (key === 'c') {
             henshinSystem.trigger(gameState.currentMask);
         }
         
-        // Trocar máscaras
+        // Trocar máscaras com 1-4
         if (key === '1' && gameState.isMaskUnlocked(MASKS.SCARLET)) {
             henshinSystem.trigger(MASKS.SCARLET);
         }
@@ -164,7 +167,6 @@ class Game {
             henshinSystem.trigger(MASKS.VEIL);
         }
         if (key === '3' && gameState.isMaskUnlocked(MASKS.ORACLE)) {
-            henshinSystem.trigger(MASKS.ORACLE);
             henshinSystem.trigger(MASKS.ORACLE);
         }
         if (key === '4' && gameState.isMaskUnlocked(MASKS.FORBIDDEN)) {
@@ -201,6 +203,7 @@ class Game {
         
         // Carregar cenário do void
         scenarioSystem.loadScenario('void');
+        gameState.setScreen(SCREENS.GAME);
         screenManager.show('game');
         
         narrativeSystem.startPrologue((nextChapter) => {
@@ -220,6 +223,7 @@ class Game {
             // Iniciar narrativa do capítulo
             narrativeSystem.startChapter(chapterId);
             
+            gameState.setScreen(SCREENS.GAME);
             screenManager.show('game');
             uiManager.updateBars();
             this.startGameLoop();
@@ -290,14 +294,13 @@ class Game {
     printControls() {
         console.log('');
         console.log('=== A ORDEM DO FRAME ZERO ===');
-        console.log('Controles:');
-        console.log('  A/D ou ←→  - Mover');
-        console.log('  W ou ↑     - Pular');
-        console.log('  Espaço     - Atacar');
-        console.log('  H ou Q     - Henshin (Transformar)');
-        console.log('  1-4        - Trocar Máscaras');
-        console.log('  Enter      - Próximo diálogo');
-        console.log('  Escape     - Fechar diálogo');
+        console.log('Controles (estilo Undertale):');
+        console.log('  ←↓↑→      - Mover');
+        console.log('  Z         - Atacar / Confirmar');
+        console.log('  X         - Pular / Cancelar');
+        console.log('  C         - Henshin (Transformar)');
+        console.log('  1-4       - Trocar Máscaras');
+        console.log('  ESC       - Pausar');
         console.log('');
         console.log('"O corpo é temporário. A máscara é eterna."');
     }

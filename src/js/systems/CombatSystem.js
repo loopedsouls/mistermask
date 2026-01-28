@@ -1,16 +1,23 @@
 // ============ SISTEMA DE COMBATE ============
-import { ATTACK_RANGE, ATTACK_DAMAGE, ATTACK_DURATION, JUMP_DURATION, PLAYER_SPEED, GAME_WIDTH } from '../config/constants.js';
+import { ATTACK_RANGE, ATTACK_DAMAGE, ATTACK_DURATION, JUMP_DURATION, PLAYER_SPEED, GAME_WIDTH, GAME_HEIGHT } from '../config/constants.js';
 import gameState from '../managers/GameState.js';
 import uiManager from '../managers/UIManager.js';
 import eventBus, { EVENTS } from '../managers/EventBus.js';
+import { roomSystem } from './RoomSystem.js';
 
 class CombatSystem {
     constructor() {
         this.enabled = false;
+        this.gravity = 0.8;
+        this.jumpForce = -15;
+        this.groundY = 450; // Posição Y do chão
     }
 
     init() {
         this.enabled = true;
+        // Inicializar posição Y do jogador
+        gameState.player.y = this.groundY;
+        gameState.player.velocityY = 0;
     }
 
     enable() {
@@ -27,23 +34,48 @@ class CombatSystem {
         if (gameState.isDialogueActive()) return;
         
         this.updateMovement();
+        this.updatePhysics();
         this.updateEnemy();
+        
+        // Verificar transição de sala
+        roomSystem.checkTransition(gameState.player.x, gameState.player.y);
     }
 
     updateMovement() {
         const player = gameState.player;
         
-        if (gameState.isKeyPressed('a') || gameState.isKeyPressed('arrowleft')) {
-            player.x = Math.max(50, player.x - PLAYER_SPEED);
+        // Movimento horizontal
+        if (gameState.isKeyPressed('arrowleft')) {
+            player.x = Math.max(30, player.x - PLAYER_SPEED);
             player.facingRight = false;
         }
         
-        if (gameState.isKeyPressed('d') || gameState.isKeyPressed('arrowright')) {
-            player.x = Math.min(GAME_WIDTH - 100, player.x + PLAYER_SPEED);
+        if (gameState.isKeyPressed('arrowright')) {
+            player.x = Math.min(GAME_WIDTH - 80, player.x + PLAYER_SPEED);
             player.facingRight = true;
         }
         
         uiManager.updatePlayerPosition();
+    }
+
+    updatePhysics() {
+        const player = gameState.player;
+        
+        // Aplicar gravidade
+        if (player.y < this.groundY) {
+            player.velocityY = (player.velocityY || 0) + this.gravity;
+            player.y += player.velocityY;
+            
+            // Colidir com o chão
+            if (player.y >= this.groundY) {
+                player.y = this.groundY;
+                player.velocityY = 0;
+                player.isJumping = false;
+                uiManager.setPlayerJumping(false);
+            }
+        }
+        
+        uiManager.updatePlayerPositionY?.();
     }
 
     updateEnemy() {
@@ -59,14 +91,11 @@ class CombatSystem {
     jump() {
         if (!this.enabled) return;
         if (gameState.player.isJumping) return;
+        if (gameState.player.y < this.groundY) return; // Já no ar
         
         gameState.player.isJumping = true;
+        gameState.player.velocityY = this.jumpForce;
         uiManager.setPlayerJumping(true);
-        
-        setTimeout(() => {
-            gameState.player.isJumping = false;
-            uiManager.setPlayerJumping(false);
-        }, JUMP_DURATION);
     }
 
     attack() {
